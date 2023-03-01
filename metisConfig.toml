@@ -5,6 +5,10 @@
 #
 # These include:
 #
+# - [global]
+#  - ExplorerURL = 'wss://'
+#   - Be sure to update this to the correct endpoint
+#
 # - [WebServer]
 #  - AllowOrigins = '*'
 #
@@ -51,7 +55,7 @@
 #---------------------------#
 # ExplorerURL
 # - ExplorerURL is the websocket URL for the node to push stats to.
-ExplorerURL = 'wss://metis-andromed.explorer.chain.link'
+ExplorerURL = 'wss://'
 
 # InsecureFastScrypt
 # - ADVANCED: Do not change this setting unless you know what you are doing.
