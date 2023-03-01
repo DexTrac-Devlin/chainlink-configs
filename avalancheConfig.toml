@@ -38,12 +38,16 @@
 #   - DefaultBootstrappeers = ['$P2P_PEER_ID@$BOOTSTRAP_00_DNS:$PORT $P2P_PEER_ID@$BOOTSTRAP_01_DNS:$PORT']
 #
 # - [[EVM]]
-#  - Configured for Ethereum Mainnet.
+#  - Configured for Avalanche Mainnet.
 #  - If you're on a different network, be sure to update these values
-#   - ChainID = '1'
-#   - LinkContractAddress = '0x514910771AF9Ca656af840dff83E8264EcF986CA'
-#   - MinContractPayment = '0.1 link'
-
+#   - ChainID = '4314'
+#   - LinkContractAddress = '0x5947BB275c521040051D82396192181b413227A3'
+#   - MinContractPayment = '0.00001 link'
+#
+# - [EVM.GasEstimator]
+#  - Mode = 'BlockHistory'
+#  - PriceDefault = '25 gwei'
+#  - PriceMin = '25 gwei'
 
 
 #---------------------------#
