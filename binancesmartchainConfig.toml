@@ -5,6 +5,10 @@
 #
 # These include:
 #
+# - [global]
+#  - ExplorerURL = 'wss://'
+#   - Be sure to update this to the correct endpoint
+#
 # - [WebServer]
 #  - AllowOrigins = '*'
 #
