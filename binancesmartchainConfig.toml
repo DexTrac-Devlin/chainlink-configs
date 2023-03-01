@@ -1463,7 +1463,7 @@ MinIncomingConfirmations = 1
 #---------------------------#
 #      EVM Gas Estimator    #
 #---------------------------#
-#[EVM.GasEstimator]
+[EVM.GasEstimator]
 
 # Mode
 # - Mode controls what type of gas estimator is used.
