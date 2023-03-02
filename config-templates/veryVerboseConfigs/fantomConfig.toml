@@ -21,11 +21,10 @@
 # - [Feature]
 #  - Feeds Manager is enabled
 #
-# - [JobPipeline.HTTPRequest]
-#  - DefaultTimeout = '6s'
-#
 # - [OCR]
 #  - Enabled = true
+#   - Adjusted ObservationTimeout to '1s'
+#    - ObservationTimeout = '1s'
 #   - Be sure to update the necessary values
 #    - KeyBundleID
 #    - TransmitterAddress
@@ -42,12 +41,19 @@
 #   - DefaultBootstrappeers = ['$P2P_PEER_ID@$BOOTSTRAP_00_DNS:$PORT $P2P_PEER_ID@$BOOTSTRAP_01_DNS:$PORT']
 #
 # - [[EVM]]
-#  - Configured for Fantom Mainnet.
+#  - Configured for Arbitrum Mainnet.
 #  - If you're on a different network, be sure to update these values
-#   - ChainID = '250'
-#   - LinkContractAddress = '0x6F43FF82CCA38001B6699a8AC47A2d0E66939407'
+#   - ChainID = '42161'
+#   - LinkContractAddress = '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4'
 #   - MinContractPayment = '0.1 link'
-
+#
+# - [EVM.GasEstimator]
+#  - Adjusted BumpThreshold
+#   - BumpThreshold = 15
+#
+# - [EVM.GasEstimator.BlockHistory]
+#  - Adjusted block history size to account for volatile gas spikes on Fantom
+#   - BlockHistorySize = 7
 
 
 #---------------------------#
@@ -442,7 +448,7 @@ Level = 'info'
 #  - tb (terabytes)
 #
 # - Default is '5120mb'
-MaxSize = '0mb'
+MaxSize = '5120b'
 
 # MaxAgeDays
 # - MaxAgeDays determines the log file's max age in days before file rotation.
@@ -612,7 +618,7 @@ KeyPath = '/chainlink/tls/server.key'
 #---------------------------#
 #        Job Pipeline       #
 #---------------------------#
-[JobPipeline]
+#[JobPipeline]
 
 # ExternalInitiatorsEnabled
 # - ExternalInitiatorsEnabled enables the External Initiator feature.
@@ -666,13 +672,13 @@ KeyPath = '/chainlink/tls/server.key'
 #---------------------------#
 # Job Pipeline HTTP Request #
 #---------------------------#
-[JobPipeline.HTTPRequest]
+#[JobPipeline.HTTPRequest]
 
 # DefaultTimeout
 # - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
 #
 # - Default is '15s'
-DefaultTimeout = '6s'
+#DefaultTimeout = '6s'
 
 # MaxSize
 # - MaxSize defines the maximum size for HTTP requests and responses made by http and bridge adapters.
@@ -792,7 +798,7 @@ Enabled = true
 # - (This is necessary because an oracle's operations are serialized, so blocking forever on an observation would break the oracle)
 #
 # - Default is '5s'
-#ObservationTimeout = '5s'
+ObservationTimeout = '1s'
 
 # BlockchainTimeout
 # - BlockchainTimeout is the timeout for blockchain queries (mediated through ContractConfigTracker and ContractTransmitter).
@@ -990,7 +996,7 @@ AnnounceAddresses = ['']
 # DefaultBootstrappers
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
-# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234'] 
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
 DefaultBootstrappers = ['']
 
 # DeltaDial
@@ -1460,7 +1466,7 @@ MinContractPayment = '0.1 link'
 #---------------------------#
 #      EVM Gas Estimator    #
 #---------------------------#
-#[EVM.GasEstimator]
+[EVM.GasEstimator]
 
 # Mode
 # - Mode controls what type of gas estimator is used.
@@ -1568,7 +1574,7 @@ MinContractPayment = '0.1 link'
 # - BumpThreshold is the number of blocks to wait for a transaction stuck in the mempool before automatically bumping the gas price. Set to 0 to disable gas bumping completely.
 #
 # - Default is 3
-#BumpThreshold = 3
+BumpThreshold = 15
 
 # BumpTxDepth
 # - BumpTxDepth is the number of transactions to gas bump starting from oldest. Set to 0 for no limit (i.e. bump all).
@@ -1698,7 +1704,7 @@ MinContractPayment = '0.1 link'
 #---------------------------#
 # - These settings allow you to configure how your node calculates gas prices when using the block history estimator.
 # - In most cases, leaving these values at their defaults should give good results.
-#[EVM.GasEstimator.BlockHistory]
+[EVM.GasEstimator.BlockHistory]
 
 # BatchSize
 # - BatchSize sets the maximum number of blocks to fetch in one batch in the block history estimator.
@@ -1711,7 +1717,7 @@ MinContractPayment = '0.1 link'
 # - BlockHistorySize controls the number of past blocks to keep in memory to use as a basis for calculating a percentile gas price.
 #
 # - Default is 8
-#BlockHistorySize = 8
+BlockHistorySize = 7
 
 # CheckInclusionBlocks
 # - CheckInclusionBlocks is the number of recent blocks to use to detect if there is a transaction propagation/connectivity issue, and to prevent bumping in these cases.
