@@ -1,0 +1,54 @@
+ExplorerURL = 'wss://'
+RootDir = '/chainlink'
+
+[Feature]
+ FeedsManager = true
+
+[Log]
+ Level = 'info'
+
+[Log.File]
+ MaxSize = '5120b'
+
+[WebServer]
+ AllowOrigins = '*'
+
+[WebServer.TLS]
+ CertPath = '/chainlink/tls/server.crt'
+ KeyPath = '/chainlink/tls/server.key'
+
+[OCR]
+ Enabled = true
+ ObservationTimeout = '1s'
+ KeyBundleID = ''
+ TransmitterAddress = ''
+
+[P2P]
+ PeerID = ''
+
+[P2P.V1]
+ Enabled = false
+
+[P2P.V2]
+ Enabled = true
+ AnnounceAddresses = ['']
+ DefaultBootstrappers = ['']
+ ListenAddresses = ['']
+
+[[EVM]]
+ ChainID = '250'
+ Enabled = true
+ LinkContractAddress = '0x6F43FF82CCA38001B6699a8AC47A2d0E66939407'
+ MinContractPayment = '0.1 link'
+
+[EVM.GasEstimator]
+ BumpThreshold = 15
+
+[EVM.GasEstimator.BlockHistory]
+ BlockHistorySize = 7
+
+[[EVM.Nodes]]
+ Name = 'Fantom_Mainnet_00'
+ WSURL = 'wss://'
+ HTTPURL = 'https://'
+ SendOnly = false
