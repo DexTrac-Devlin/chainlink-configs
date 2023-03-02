@@ -1,0 +1,56 @@
+ExplorerURL = 'wss://'
+RootDir = '/.chainlink'
+
+[Feature]
+ FeedsManager = true
+
+[Log]
+ Level = 'info'
+ JSONConsole = false
+ UnixTS = false
+
+[Log.File]
+ MaxSize = '5120mb'
+ MaxAgeDays = 0
+ MaxBackups = 1
+
+[WebServer]
+ AllowOrigins = '*'
+
+[WebServer.TLS]
+CertPath = '/chainlink/tls/server.crt'
+KeyPath = '/chainlink/tls/server.key'
+
+[JobPipeline]
+
+[JobPipeline.HTTPRequest]
+ DefaultTimeout = '15s'
+
+[OCR]
+ Enabled = true
+ KeyBundleID = ''
+ TransmitterAddress = ''
+
+[P2P]
+ PeerID = ''
+
+[P2P.V1]
+ Enabled = false
+
+[P2P.V2]
+ Enabled = true
+ AnnounceAddresses = ['']
+ DefaultBootstrappers = ['']
+ ListenAddresses = ['']
+
+[[EVM]]
+ ChainID = '1'
+ Enabled = true
+ LinkContractAddress = '0x514910771AF9Ca656af840dff83E8264EcF986CA'
+ MinContractPayment = '0.1 link'
+
+[[EVM.Nodes]]
+ Name = 'Ethereum_Mainnet_00'
+ WSURL = 'wss://'
+ HTTPURL = 'https://'
+ SendOnly = false
