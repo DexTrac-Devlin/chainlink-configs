@@ -17,9 +17,13 @@ RootDir = '/chainlink'
  CertPath = '/chainlink/tls/server.crt'
  KeyPath = '/chainlink/tls/server.key'
 
+[JobPipeline]
+
+[JobPipeline.HTTPRequest]
+ DefaultTimeout = '6s'
+
 [OCR]
  Enabled = true
- ObservationTimeout = '1s'
  KeyBundleID = ''
  TransmitterAddress = ''
 
@@ -36,12 +40,13 @@ RootDir = '/chainlink'
  ListenAddresses = ['']
 
 [[EVM]]
- ChainID = '1666600000'
+ ChainID = '1088'
  Enabled = true
+ LinkContractAddress = '0x0000000000000000000000000000000000000000'
  MinContractPayment = '0.1 link'
 
 [[EVM.Nodes]]
- Name = 'Harmony_Mainnet_00'
+ Name = 'Metis_Mainnet_00'
  WSURL = 'wss://'
  HTTPURL = 'https://'
  SendOnly = false

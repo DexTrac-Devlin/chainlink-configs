@@ -23,6 +23,7 @@
 #
 # - [JobPipeline.HTTPRequest]
 #  - DefaultTimeout = '6s'
+#  - MaxSize = '700.00kb'
 #
 # - [OCR]
 #  - Enabled = true
@@ -442,7 +443,7 @@ Level = 'info'
 #  - tb (terabytes)
 #
 # - Default is '5120mb'
-MaxSize = '0mb'
+MaxSize = '5120mb'
 
 # MaxAgeDays
 # - MaxAgeDays determines the log file's max age in days before file rotation.
@@ -677,8 +678,7 @@ DefaultTimeout = '6s'
 # MaxSize
 # - MaxSize defines the maximum size for HTTP requests and responses made by http and bridge adapters.
 #
-# - Default is 32768
-#MaxSize = '32768'
+# - Default is 32768[JobPipeline.HTTPRequest]
 
 
 #---------------------------#
