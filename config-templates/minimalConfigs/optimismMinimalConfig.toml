@@ -1,0 +1,57 @@
+RootDir = '/chainlink'
+
+[Feature]
+ FeedsManager = true
+
+[TelemetryIngress]
+ UniConn = false
+ ServerPubKey = ''
+ URL = ''
+
+[Log]
+ Level = 'info'
+
+[Log.File]
+ MaxSize = '5120mb'
+
+[WebServer]
+ AllowOrigins = '*'
+
+[WebServer.TLS]
+ CertPath = '/chainlink/tls/server.crt'
+ KeyPath = '/chainlink/tls/server.key'
+
+[OCR]
+ Enabled = true
+ KeyBundleID = ''
+ TransmitterAddress = ''
+
+[P2P]
+ PeerID = ''
+
+[P2P.V1]
+ Enabled = false
+
+[P2P.V2]
+ Enabled = true
+ AnnounceAddresses = ['']
+ DefaultBootstrappers = ['', '', '', '']
+ ListenAddresses = ['']
+
+[[EVM]]
+ ChainID = '10'
+ Enabled = true
+ LinkContractAddress = '0x350a791Bfc2C21F9Ed5d10980Dad2e2638ffa7f6'
+ MinContractPayment = '0.1 link'
+
+[EVM.GasEstimator]
+ Mode = 'Optimism2'
+
+[EVM.GasEstimator.BlockHistory]
+ TransactionPercentile = 75
+
+[[EVM.Nodes]]
+ Name = 'Optimism_Mainnet_00'
+ WSURL = 'wss://'
+ HTTPURL = 'https://'
+ SendOnly = false
