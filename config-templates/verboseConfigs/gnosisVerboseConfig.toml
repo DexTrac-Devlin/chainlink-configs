@@ -77,7 +77,7 @@ Level = 'info'
 #  - tb (terabytes)
 #
 # - Default is '5120mb'
-MaxSize = '0mb'
+MaxSize = '5120mb'
 
 
 #---------------------------#
