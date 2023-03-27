@@ -21,12 +21,10 @@
 # - [Feature]
 #  - Feeds Manager is enabled
 #
-# - [JobPipeline.HTTPRequest]
-#  - DefaultTimeout = '6s'
-#  - MaxSize = '700.00kb'
-#
 # - [OCR]
 #  - Enabled = true
+#   - Adjusted ObservationTimeout to '1s'
+#    - ObservationTimeout = '1s'
 #   - Be sure to update the necessary values
 #    - KeyBundleID
 #    - TransmitterAddress
@@ -43,12 +41,10 @@
 #   - DefaultBootstrappeers = ['$P2P_PEER_ID@$BOOTSTRAP_00_DNS:$PORT $P2P_PEER_ID@$BOOTSTRAP_01_DNS:$PORT']
 #
 # - [[EVM]]
-#  - Configured for Metis Mainnet.
+#  - Configured for Harmony Mainnet.
 #  - If you're on a different network, be sure to update these values
-#   - ChainID = '1088'
-#   - LinkContractAddress = '0x0000000000000000000000000000000000000000'
+#   - ChainID = '1666600000'
 #   - MinContractPayment = '0.1 link'
-
 
 
 #---------------------------#
@@ -613,7 +609,7 @@ KeyPath = '/chainlink/tls/server.key'
 #---------------------------#
 #        Job Pipeline       #
 #---------------------------#
-[JobPipeline]
+#[JobPipeline]
 
 # ExternalInitiatorsEnabled
 # - ExternalInitiatorsEnabled enables the External Initiator feature.
@@ -667,18 +663,19 @@ KeyPath = '/chainlink/tls/server.key'
 #---------------------------#
 # Job Pipeline HTTP Request #
 #---------------------------#
-[JobPipeline.HTTPRequest]
+#[JobPipeline.HTTPRequest]
 
 # DefaultTimeout
 # - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
 #
 # - Default is '15s'
-DefaultTimeout = '6s'
+#DefaultTimeout = '6s'
 
 # MaxSize
 # - MaxSize defines the maximum size for HTTP requests and responses made by http and bridge adapters.
 #
-# - Default is 32768[JobPipeline.HTTPRequest]
+# - Default is 32768
+#MaxSize = '32768'
 
 
 #---------------------------#
@@ -792,7 +789,7 @@ Enabled = true
 # - (This is necessary because an oracle's operations are serialized, so blocking forever on an observation would break the oracle)
 #
 # - Default is '5s'
-#ObservationTimeout = '5s'
+ObservationTimeout = '1s'
 
 # BlockchainTimeout
 # - BlockchainTimeout is the timeout for blockchain queries (mediated through ContractConfigTracker and ContractTransmitter).
@@ -990,7 +987,7 @@ AnnounceAddresses = ['']
 # DefaultBootstrappers
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
-# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234'] 
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
 DefaultBootstrappers = ['']
 
 # DeltaDial
@@ -1248,7 +1245,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '1088'
+ChainID = '1666600000'
 
 # Enabled
 # - Enabled enables this chain.
@@ -1312,7 +1309,7 @@ Enabled = true
 # - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
 #
 # - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
-LinkContractAddress = '0x0000000000000000000000000000000000000000'
+# LinkContractAddress = ''
 
 # LogBackfillBatchSize
 # - ADVANCED: Do not change this setting unless you know what you are doing.
@@ -1887,7 +1884,7 @@ MinContractPayment = '0.1 link'
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'Metis_Mainnet_00'
+Name = 'Harmony_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.
