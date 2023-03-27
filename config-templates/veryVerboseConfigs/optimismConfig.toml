@@ -837,7 +837,7 @@ Enabled = true
 # - KeyBundleID is the default key bundle ID to use for OCR jobs. If you have an OCR job that does not explicitly specify a key bundle ID, it will fall back to this value.
 #
 # - Example: KeyBundleID = 'acdd42797a8b921b2910497badc5000600000000000000000000000000000000'
-KeyBundleID = 'b83e78b8e1b8a0fc4ff379f4d791ea92919747fb357f600216f73c95d2fc2bda'
+KeyBundleID = ''
 
 # SimulateTransactions
 # - SimulateTransactions enables transaction simulation for OCR.
@@ -850,7 +850,7 @@ KeyBundleID = 'b83e78b8e1b8a0fc4ff379f4d791ea92919747fb357f600216f73c95d2fc2bda'
 # - If you have an OCR job that does not explicitly specify a transmitter address, it will fall back to this value.
 #
 # - Example: TransmitterAddress = '0xa0788FC17B1dEe36f057c42B6F373A34B014687e'
-TransmitterAddress = '0x6CA4166EeFd64B5f607f12Fb0C3fbAe233897757'
+TransmitterAddress = ''
 
 
 #---------------------------#
