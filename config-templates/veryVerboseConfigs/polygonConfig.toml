@@ -21,9 +21,6 @@
 # - [Feature]
 #  - Feeds Manager is enabled
 #
-# - [JobPipeline.HTTPRequest]
-#  - DefaultTimeout = '6s'
-#
 # - [OCR]
 #  - Enabled = true
 #   - Be sure to update the necessary values
