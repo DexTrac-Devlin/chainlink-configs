@@ -1,0 +1,299 @@
+#---------------------------#
+#          Global           #
+#---------------------------#
+# ExplorerURL
+# - ExplorerURL is the websocket URL for the node to push stats to.
+ExplorerURL = 'wss://'
+
+# RootDir
+# - RootDir is the Chainlink node's root directory.
+# - This is the default directory for logging, database backups, cookies, and other misc Chainlink node files.
+# - Chainlink nodes will always ensure this directory has 700 permissions because it might contain sensitive data.
+#
+# - Default is set to '/.chainlink'
+RootDir = '/chainlink'
+
+
+#---------------------------#
+#          Feature          #
+#---------------------------#
+[Feature]
+# FeedsManager
+# - FeedsManager enables the experimental feeds manager service.
+#
+# - Default is set to false
+FeedsManager = true
+
+
+#---------------------------#
+#            Log            #
+#---------------------------#
+[Log]
+
+# Level
+# - Level determines both what is printed on the screen and what is written to the log file.
+#
+# - The available levels are:
+#  - "debug": Useful for forensic debugging of issues.
+#  - "info": High-level informational messages. (default)
+#  - "warn": A mild error occurred that might require non-urgent action.
+#    Check these warnings semi-regularly to see if any of them require attention.
+#    These warnings usually happen due to factors outside of the control of the node operator.
+#     - Examples: Unexpected responses from a remote API or misleading networking errors.
+#  - "error": An unexpected error occurred during the regular operation of a well-maintained node.
+#    Node operators might need to take action to remedy this error. Check these regularly to see if any of them require attention.
+#     - Examples: Use of deprecated configuration options or incorrectly configured settings that cause a job to fail.
+#  - "crit": A critical error occurred. The node might be unable to function.
+#    Node operators should take immediate action to fix these errors.
+#     - Examples: The node could not boot because a network socket could not be opened or the database became inaccessible.
+#  - "panic": An exceptional error occurred that could not be handled.
+#    If the node is unresponsive, node operators should try to restart their nodes and notify the Chainlink team of a potential bug.
+#  - "fatal": The node encountered an unrecoverable problem and had to exit.
+#
+# - Default is 'info'
+Level = 'info'
+
+
+#---------------------------#
+#          Log File         #
+#---------------------------#
+[Log.File]
+
+# MaxSize
+# - MaxSize determines the log file's max size in megabytes before file rotation.
+# - Having this not set will disable logging to disk.
+# - If your disk doesn't have enough disk space, the logging will pause and the application will log errors until space is available again.
+#
+# - Values must have suffixes with a unit like: 5120mb (5,120 megabytes). If no unit suffix is provided, the value defaults to b (bytes). The list of valid unit suffixes are:
+#  - b (bytes)
+#  - kb (kilobytes)
+#  - mb (megabytes)
+#  - gb (gigabytes)
+#  - tb (terabytes)
+#
+# - Default is '5120mb'
+MaxSize = '5120mb'
+
+
+#---------------------------#
+#         Web Server        #
+#---------------------------#
+[WebServer]
+
+# AllowOrigins
+# - AllowOrigins controls the URLs Chainlink nodes emit in the Allow-Origins header of its API responses.
+# - The setting can be a comma-separated list with no spaces. You might experience CORS issues if this is not set correctly.
+#
+# - You should set this to the external URL that you use to access the Chainlink UI.
+#
+# - You can set AllowOrigins = '*' to allow the UI to work from any URL, but it is recommended for security reasons to make it explicit instead.
+#
+# - Default is 'http://localhost:3000,http://localhost:6688'
+AllowOrigins = '*'
+
+
+#---------------------------#
+#       Web Server TLS      #
+#---------------------------#
+# - The TLS settings apply only if you want to enable TLS security on your Chainlink node.
+[WebServer.TLS]
+
+# CertPath
+# - CertPath is the location of the TLS certificate file.
+#
+# - Example: CertPath = '~/.cl/certs'
+CertPath = '/chainlink/tls/server.crt'
+
+# KeyPath
+# - KeyPath is the location of the TLS private key file.
+#
+# - Example: KeyPath = '/home/$USER/.chainlink/tls/server.key'
+KeyPath = '/chainlink/tls/server.key'
+
+
+#---------------------------#
+#        Job Pipeline       #
+#---------------------------#
+[JobPipeline]
+
+
+#---------------------------#
+# Job Pipeline HTTP Request #
+#---------------------------#
+[JobPipeline.HTTPRequest]
+
+# DefaultTimeout
+# - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
+#
+# - Default is '15s'
+DefaultTimeout = '6s'
+
+
+#---------------------------#
+#           OCR             #
+#---------------------------#
+# - This section applies only if you are running off-chain reporting jobs.
+[OCR]
+
+# Enabled
+# - Enabled enables OCR jobs.
+#
+# - Default is false
+Enabled = true
+
+# KeyBundleID
+# - KeyBundleID is the default key bundle ID to use for OCR jobs. If you have an OCR job that does not explicitly specify a key bundle ID, it will fall back to this value.
+#
+# - Example: KeyBundleID = 'acdd42797a8b921b2910497badc5000600000000000000000000000000000000'
+KeyBundleID = ''
+
+# TransmitterAddress
+# - TransmitterAddress is the default sending address to use for OCR.
+# - If you have an OCR job that does not explicitly specify a transmitter address, it will fall back to this value.
+#
+# - Example: TransmitterAddress = '0xa0788FC17B1dEe36f057c42B6F373A34B014687e'
+TransmitterAddress = ''
+
+
+#---------------------------#
+#           P2P             #
+#---------------------------#
+# - P2P supports multiple networking stack versions. You may configure [P2P.V1], [P2P.V2], or both to run simultaneously.
+# - If both are configured, then for each link with another peer, V2 networking will be preferred.
+# - If V2 does not work, the link will automatically fall back to V1.
+# - If V2 starts working again later, it will automatically be preferred again.
+# - This is useful for migrating networks without downtime.
+# - Note that the two networking stacks must not be configured to bind to the same IP/port.
+#
+# - All nodes in the OCR network should share the same networking stack.
+[P2P]
+
+# PeerID
+# - PeerID is the default peer ID to use for OCR jobs. If unspecified, uses the first available peer ID.
+#
+# - Example: PeerID = '12D3KooWMoejJznyDuEk5aX6GvbjaG12UzeornPCBNzMRqdwrFJw'
+PeerID = ''
+
+
+#---------------------------#
+#         P2P v1            #
+#---------------------------#
+[P2P.V1]
+
+# Enabled
+# - Enabled enables P2P V1.
+#
+# Default is true
+Enabled = false
+
+
+#---------------------------#
+#         P2P v2            #
+#---------------------------#
+[P2P.V2]
+
+# Enabled
+# - Enabled enables P2P V2. Note: V1.Enabled is true by default, so it must be set false in order to run V2 only.
+#
+# - Default is false
+Enabled = true
+
+# AnnounceAddresses
+# - AnnounceAddresses is the addresses the peer will advertise on the network in host:port form as accepted by net.Dial.
+# - The addresses should be reachable by peers of interest.
+#
+# - Example: AnnounceAddresses = ['1.2.3.4:9999', '[a52d:0:a88:1274::abcd]:1337']
+AnnounceAddresses = ['']
+
+# DefaultBootstrappers
+# - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
+#
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234'] 
+DefaultBootstrappers = ['']
+
+# ListenAddresses
+# - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
+#   but the host and port must be fully specified and cannot be empty. You can specify 0.0.0.0 (IPv4) or :: (IPv6) to listen on all interfaces, but that is not recommended.
+#
+# - Example: ListenAddresses = ['1.2.3.4:9999', '[a52d:0:a88:1274::abcd]:1337']
+ListenAddresses = ['']
+
+
+#---------------------------#
+#            EVM            #
+#---------------------------#
+# - EVM defaults depend on ChainID:
+[[EVM]]
+
+# ChainID
+# - ChainID is the EVM chain ID.
+# - Mandatory.
+#
+# - Example: ChainID = '1'
+ChainID = '42161'
+
+# Enabled
+# - Enabled enables this chain.
+#
+# - Default is true
+Enabled = true
+
+# LinkContractAddress
+# - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
+#
+# - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
+LinkContractAddress = '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4'
+
+# MinContractPayment
+# - MinContractPayment is the minimum payment in LINK required to execute a direct request job. This can be overridden on a per-job basis.
+#
+# - Default is '10000000000000 juels'
+MinContractPayment = '0.1 link'
+
+
+#---------------------------#
+#      EVM Gas Estimator    #
+#---------------------------#
+[EVM.GasEstimator]
+
+# PriceMax
+# - PriceMax is the maximum gas price.
+# - Chainlink nodes will never pay more than this for a transaction.
+# - This applies to both legacy and EIP1559 transactions.
+# - Note that it is impossible to disable the maximum limit.
+# - Setting this value to zero will prevent paying anything for any transaction (which can be useful in some rare cases).
+# - Most chains by default have the maximum set to 2**256-1 Wei which is the maximum allowed gas price on EVM-compatible chains, and is so large it may as well be unlimited.
+#
+# - Default is '115792089237316195423570985008687907853269984665.640564039457584007913129639935'
+PriceMax = '100000000000000 tether'
+
+
+#---------------------------#
+#         EVM Nodes         #
+#---------------------------#
+[[EVM.Nodes]]
+
+# Name
+# - Name is a unique (per-chain) identifier for this node.
+#
+# - Example: Name = 'Ethereum_Mainnet_00'
+Name = 'Moonbeam_Mainnet_00'
+
+# WSURL
+# - WSURL is the WS(S) endpoint for this node. Required for primary nodes.
+#
+# - Example: WSURL = 'wss://web.socket/test'
+WSURL = 'wss://'
+
+# HTTPURL
+# - HTTPURL is the HTTP(S) endpoint for this node. Required for all nodes.
+#
+# - Example: HTTPURL = 'https://foo.web'
+HTTPURL = 'https://'
+
+# SendOnly
+# - SendOnly limits usage to sending transaction broadcasts only.
+# - With this enabled, only HTTPURL is required, and WSURL is not used.
+#
+# Default is false
+SendOnly = false

@@ -1,0 +1,56 @@
+ExplorerURL = 'wss://'
+
+RootDir = '/chainlink'
+
+[Feature]
+ FeedsManager = true
+
+[Log]
+ Level = 'info'
+
+[Log.File]
+ MaxSize = '5120mb'
+
+[WebServer]
+ AllowOrigins = '*'
+
+[WebServer.TLS]
+ CertPath = '/chainlink/tls/server.crt'
+ KeyPath = '/chainlink/tls/server.key'
+
+[JobPipeline]
+
+[JobPipeline.HTTPRequest]
+ DefaultTimeout = '6s'
+
+[OCR]
+ Enabled = true
+ KeyBundleID = ''
+ TransmitterAddress = ''
+
+[P2P]
+ PeerID = ''
+
+[P2P.V1]
+ Enabled = false
+
+[P2P.V2]
+ Enabled = true
+ AnnounceAddresses = ['']
+ DefaultBootstrappers = ['']
+ ListenAddresses = ['']
+
+[[EVM]]
+ ChainID = '42161'
+ Enabled = true
+ LinkContractAddress = '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4'
+ MinContractPayment = '0.1 link'
+
+[EVM.GasEstimator]
+ PriceMax = '100000000000000 tether'
+
+[[EVM.Nodes]]
+ Name = 'Moonbeam_Mainnet_00'
+ WSURL = 'wss://'
+ HTTPURL = 'https://'
+ SendOnly = false
