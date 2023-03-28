@@ -198,7 +198,7 @@ AnnounceAddresses = ['']
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
 # - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
-DefaultBootstrappers = ['']
+DefaultBootstrappers = ['', '', '', '']
 
 # ListenAddresses
 # - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),

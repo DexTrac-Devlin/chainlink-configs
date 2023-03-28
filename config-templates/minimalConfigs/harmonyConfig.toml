@@ -1,5 +1,4 @@
 ExplorerURL = 'wss://'
-
 RootDir = '/chainlink'
 
 [Feature]
@@ -20,6 +19,7 @@ RootDir = '/chainlink'
 
 [OCR]
  Enabled = true
+ ObservationTimeout = '1s'
  KeyBundleID = ''
  TransmitterAddress = ''
 
@@ -32,26 +32,16 @@ RootDir = '/chainlink'
 [P2P.V2]
  Enabled = true
  AnnounceAddresses = ['']
- DefaultBootstrappers = ['']
+ DefaultBootstrappers = ['', '', '', '']
  ListenAddresses = ['']
 
 [[EVM]]
- ChainID = '137'
+ ChainID = '1666600000'
  Enabled = true
- LinkContractAddress = '0xb0897686c545045aFc77CF20eC7A532E3120E0F1'
  MinContractPayment = '0.1 link'
 
-[EVM.GasEstimator]
- Mode = 'BlockHistory'
- BumpMin = '16 gwei'
- BumpThreshold = 2
-
-[EVM.GasEstimator.BlockHistory]
- BlockHistorySize = 12
- TransactionPercentile = 75
-
 [[EVM.Nodes]]
- Name = 'Polygon_Mainnet_00'
+ Name = 'Harmony_Mainnet_00'
  WSURL = 'wss://'
  HTTPURL = 'https://'
  SendOnly = false

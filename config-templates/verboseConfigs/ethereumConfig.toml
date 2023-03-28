@@ -11,7 +11,7 @@ ExplorerURL = 'wss://'
 # - Chainlink nodes will always ensure this directory has 700 permissions because it might contain sensitive data.
 #
 # - Default is set to '/.chainlink'
-RootDir = '/chainlink'
+RootDir = '/.chainlink'
 
 
 #---------------------------#
@@ -53,6 +53,20 @@ FeedsManager = true
 # - Default is 'info'
 Level = 'info'
 
+# JSONConsole
+# - JSONConsole enables JSON logging. Otherwise, the log is saved in a human-friendly console format.
+#
+# - Default is false
+JSONConsole = false
+
+# UnixTS
+# - UnixTS enables legacy unix timestamps.
+# - Previous versions of Chainlink nodes wrote JSON logs with a unix timestamp.
+# - As of v1.1.0 and up, the default has changed to use ISO8601 timestamps for better readability.
+#
+# - Default is false
+UnixTS = false
+
 
 #---------------------------#
 #          Log File         #
@@ -73,6 +87,21 @@ Level = 'info'
 #
 # - Default is '5120mb'
 MaxSize = '5120mb'
+
+# MaxAgeDays
+# - MaxAgeDays determines the log file's max age in days before file rotation.
+# - Keeping this config with the default value will not remove log files based on age.
+#
+# - Default is 0
+MaxAgeDays = 0
+
+# MaxBackups
+# - MaxBackups determines the maximum number of old log files to retain.
+# - Keeping this config with the default value retains all old log files.
+# - The MaxAgeDays variable can still cause them to get deleted.
+#
+# Default is 1
+MaxBackups = 1
 
 
 #---------------------------#
@@ -126,7 +155,7 @@ KeyPath = '/chainlink/tls/server.key'
 # - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
 #
 # - Default is '15s'
-DefaultTimeout = '6s'
+DefaultTimeout = '15s'
 
 
 #---------------------------#
@@ -208,8 +237,8 @@ AnnounceAddresses = ['']
 # DefaultBootstrappers
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
-# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234'] 
-DefaultBootstrappers = ['']
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
+DefaultBootstrappers = ['', '', '', '']
 
 # ListenAddresses
 # - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
@@ -230,7 +259,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '1088'
+ChainID = '1'
 
 # Enabled
 # - Enabled enables this chain.
@@ -242,7 +271,7 @@ Enabled = true
 # - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
 #
 # - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
-LinkContractAddress = '0x0000000000000000000000000000000000000000'
+LinkContractAddress = '0x514910771AF9Ca656af840dff83E8264EcF986CA'
 
 # MinContractPayment
 # - MinContractPayment is the minimum payment in LINK required to execute a direct request job. This can be overridden on a per-job basis.
@@ -260,7 +289,7 @@ MinContractPayment = '0.1 link'
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'Metis_Mainnet_00'
+Name = 'Ethereum_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.

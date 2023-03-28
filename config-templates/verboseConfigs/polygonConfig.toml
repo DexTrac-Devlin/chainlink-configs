@@ -18,13 +18,11 @@ RootDir = '/chainlink'
 #          Feature          #
 #---------------------------#
 [Feature]
-
 # FeedsManager
 # - FeedsManager enables the experimental feeds manager service.
 #
 # - Default is set to false
 FeedsManager = true
-
 
 #---------------------------#
 #            Log            #
@@ -92,6 +90,7 @@ MaxSize = '5120mb'
 # - Default is 'http://localhost:3000,http://localhost:6688'
 AllowOrigins = '*'
 
+
 #---------------------------#
 #       Web Server TLS      #
 #---------------------------#
@@ -109,24 +108,6 @@ CertPath = '/chainlink/tls/server.crt'
 #
 # - Example: KeyPath = '/home/$USER/.chainlink/tls/server.key'
 KeyPath = '/chainlink/tls/server.key'
-
-
-#---------------------------#
-#        Job Pipeline       #
-#---------------------------#
-[JobPipeline]
-
-
-#---------------------------#
-# Job Pipeline HTTP Request #
-#---------------------------#
-[JobPipeline.HTTPRequest]
-
-# DefaultTimeout
-# - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
-#
-# - Default is '15s'
-DefaultTimeout = '6s'
 
 
 #---------------------------#
@@ -209,7 +190,7 @@ AnnounceAddresses = ['']
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
 # - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
-DefaultBootstrappers = ['']
+DefaultBootstrappers = ['', '', '', '']
 
 # ListenAddresses
 # - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
@@ -230,7 +211,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '1285'
+ChainID = '137'
 
 # Enabled
 # - Enabled enables this chain.
@@ -242,7 +223,7 @@ Enabled = true
 # - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
 #
 # - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
-LinkContractAddress = '0x0000000000000000000000000000000000000000'
+LinkContractAddress = '0xb0897686c545045aFc77CF20eC7A532E3120E0F1'
 
 # MinContractPayment
 # - MinContractPayment is the minimum payment in LINK required to execute a direct request job. This can be overridden on a per-job basis.
@@ -280,11 +261,49 @@ MinContractPayment = '0.1 link'
 # - Default is 'BlockHistory'
 Mode = 'BlockHistory'
 
+# BumpMin
+# - BumpMin is the minimum fixed amount of wei by which gas is bumped on each transaction attempt.
+#
+# - Default is '5 gwei'
+BumpMin = '16 gwei'
+
 # BumpThreshold
 # - BumpThreshold is the number of blocks to wait for a transaction stuck in the mempool before automatically bumping the gas price. Set to 0 to disable gas bumping completely.
 #
 # - Default is 3
 BumpThreshold = 2
+
+
+#---------------------------#
+#  EVM Gas Est Blockhistory #
+#---------------------------#
+# - These settings allow you to configure how your node calculates gas prices when using the block history estimator.
+# - In most cases, leaving these values at their defaults should give good results.
+[EVM.GasEstimator.BlockHistory]
+
+# BlockHistorySize
+# - BlockHistorySize controls the number of past blocks to keep in memory to use as a basis for calculating a percentile gas price.
+#
+# - Default is 8
+BlockHistorySize = 12
+
+# TransactionPercentile
+# - TransactionPercentile specifies gas price to choose.
+# - E.g. if the block history contains four transactions with gas prices [100, 200, 300, 400] then picking 25 for this number will give a value of 200.
+# - If the calculated gas price is higher than GasPriceDefault then the higher price will be used as the base price for new transactions.
+#
+# - Must be in range 0-100.
+#
+# - Only has an effect if gas updater is enabled.
+#
+# - Think of this number as an indicator of how aggressive you want your node to price its transactions.
+#
+# - Setting this number higher will cause the Chainlink node to select higher gas prices.
+#
+# - Setting it lower will tend to set lower gas prices.
+#
+# - Default is 60
+TransactionPercentile = 75
 
 
 #---------------------------#
@@ -296,7 +315,7 @@ BumpThreshold = 2
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'Moonriver_Mainnet_00'
+Name = 'Polygon_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.

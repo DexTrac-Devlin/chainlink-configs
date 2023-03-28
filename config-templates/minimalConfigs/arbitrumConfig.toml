@@ -1,18 +1,12 @@
 ExplorerURL = 'wss://'
-RootDir = '/.chainlink'
-
-[Feature]
- FeedsManager = true
+RootDir = '/chainlink'
+FeedsManager = true
 
 [Log]
  Level = 'info'
- JSONConsole = false
- UnixTS = false
 
 [Log.File]
  MaxSize = '5120mb'
- MaxAgeDays = 0
- MaxBackups = 1
 
 [WebServer]
  AllowOrigins = '*'
@@ -24,7 +18,7 @@ RootDir = '/.chainlink'
 [JobPipeline]
 
 [JobPipeline.HTTPRequest]
- MaxSize = '700.00kb'
+ DefaultTimeout = '6s'
 
 [OCR]
  Enabled = true
@@ -40,23 +34,17 @@ RootDir = '/.chainlink'
 [P2P.V2]
  Enabled = true
  AnnounceAddresses = ['']
- DefaultBootstrappers = ['']
+ DefaultBootstrappers = ['', '', '', '']
  ListenAddresses = ['']
 
 [[EVM]]
- ChainID = '43114'
+ ChainID = '42161'
  Enabled = true
- LinkContractAddress = '0x5947BB275c521040051D82396192181b413227A3'
- MinContractPayment = '0.00001 link'
- MinIncomingConfirmations = 1
-
-[EVM.GasEstimator]
- Mode = 'BlockHistory'
- PriceDefault = '25 gwei'
- PriceMin = '25 gwei'
+ LinkContractAddress = '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4'
+ MinContractPayment = '0.1 link'
 
 [[EVM.Nodes]]
- Name = 'Avalanche_Mainnet_00'
+ Name = 'Arbitrum_Mainnet_00'
  WSURL = 'wss://'
  HTTPURL = 'https://'
  SendOnly = false

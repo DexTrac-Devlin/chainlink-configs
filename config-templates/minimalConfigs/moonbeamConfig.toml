@@ -1,30 +1,27 @@
 ExplorerURL = 'wss://'
-RootDir = '/.chainlink'
+
+RootDir = '/chainlink'
 
 [Feature]
  FeedsManager = true
 
 [Log]
  Level = 'info'
- JSONConsole = false
- UnixTS = false
 
 [Log.File]
  MaxSize = '5120mb'
- MaxAgeDays = 0
- MaxBackups = 1
 
 [WebServer]
  AllowOrigins = '*'
 
 [WebServer.TLS]
-CertPath = '/chainlink/tls/server.crt'
-KeyPath = '/chainlink/tls/server.key'
+ CertPath = '/chainlink/tls/server.crt'
+ KeyPath = '/chainlink/tls/server.key'
 
 [JobPipeline]
 
 [JobPipeline.HTTPRequest]
- DefaultTimeout = '15s'
+ DefaultTimeout = '6s'
 
 [OCR]
  Enabled = true
@@ -40,17 +37,20 @@ KeyPath = '/chainlink/tls/server.key'
 [P2P.V2]
  Enabled = true
  AnnounceAddresses = ['']
- DefaultBootstrappers = ['']
+ DefaultBootstrappers = ['', '', '', '']
  ListenAddresses = ['']
 
 [[EVM]]
- ChainID = '1'
+ ChainID = '1284'
  Enabled = true
- LinkContractAddress = '0x514910771AF9Ca656af840dff83E8264EcF986CA'
+ LinkContractAddress = '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4'
  MinContractPayment = '0.1 link'
 
+[EVM.GasEstimator]
+ PriceMax = '100000000000000 tether'
+
 [[EVM.Nodes]]
- Name = 'Ethereum_Mainnet_00'
+ Name = 'Moonbeam_Mainnet_00'
  WSURL = 'wss://'
  HTTPURL = 'https://'
  SendOnly = false

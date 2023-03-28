@@ -1,12 +1,8 @@
+ExplorerURL = 'wss://'
 RootDir = '/chainlink'
 
 [Feature]
  FeedsManager = true
-
-[TelemetryIngress]
- UniConn = false
- ServerPubKey = ''
- URL = ''
 
 [Log]
  Level = 'info'
@@ -20,6 +16,11 @@ RootDir = '/chainlink'
 [WebServer.TLS]
  CertPath = '/chainlink/tls/server.crt'
  KeyPath = '/chainlink/tls/server.key'
+
+[JobPipeline]
+
+[JobPipeline.HTTPRequest]
+ DefaultTimeout = '6s'
 
 [OCR]
  Enabled = true
@@ -39,19 +40,18 @@ RootDir = '/chainlink'
  ListenAddresses = ['']
 
 [[EVM]]
- ChainID = '10'
+ ChainID = '56'
  Enabled = true
- LinkContractAddress = '0x350a791Bfc2C21F9Ed5d10980Dad2e2638ffa7f6'
+ LinkContractAddress = '0x404460C6A5EdE2D891e8297795264fDe62ADBB75'
  MinContractPayment = '0.1 link'
+ MinIncomingConfirmations = 1
 
 [EVM.GasEstimator]
- Mode = 'Optimism2'
-
-[EVM.GasEstimator.BlockHistory]
- TransactionPercentile = 75
+ Mode = 'BlockHistory'
+ BumpThreshold = 3
 
 [[EVM.Nodes]]
- Name = 'Optimism_Mainnet_00'
+ Name = 'BinanceSmartChain_Mainnet_00'
  WSURL = 'wss://'
  HTTPURL = 'https://'
  SendOnly = false

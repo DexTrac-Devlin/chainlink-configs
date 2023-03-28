@@ -11,7 +11,7 @@ ExplorerURL = 'wss://'
 # - Chainlink nodes will always ensure this directory has 700 permissions because it might contain sensitive data.
 #
 # - Default is set to '/.chainlink'
-RootDir = '/.chainlink'
+RootDir = '/chainlink'
 
 
 #---------------------------#
@@ -53,20 +53,6 @@ FeedsManager = true
 # - Default is 'info'
 Level = 'info'
 
-# JSONConsole
-# - JSONConsole enables JSON logging. Otherwise, the log is saved in a human-friendly console format.
-#
-# - Default is false
-JSONConsole = false
-
-# UnixTS
-# - UnixTS enables legacy unix timestamps.
-# - Previous versions of Chainlink nodes wrote JSON logs with a unix timestamp.
-# - As of v1.1.0 and up, the default has changed to use ISO8601 timestamps for better readability.
-#
-# - Default is false
-UnixTS = false
-
 
 #---------------------------#
 #          Log File         #
@@ -86,22 +72,7 @@ UnixTS = false
 #  - tb (terabytes)
 #
 # - Default is '5120mb'
-MaxSize = '5120mb'
-
-# MaxAgeDays
-# - MaxAgeDays determines the log file's max age in days before file rotation.
-# - Keeping this config with the default value will not remove log files based on age.
-#
-# - Default is 0
-MaxAgeDays = 0
-
-# MaxBackups
-# - MaxBackups determines the maximum number of old log files to retain.
-# - Keeping this config with the default value retains all old log files.
-# - The MaxAgeDays variable can still cause them to get deleted.
-#
-# Default is 1
-MaxBackups = 1
+MaxSize = '5120b'
 
 
 #---------------------------#
@@ -141,24 +112,6 @@ KeyPath = '/chainlink/tls/server.key'
 
 
 #---------------------------#
-#        Job Pipeline       #
-#---------------------------#
-[JobPipeline]
-
-
-#---------------------------#
-# Job Pipeline HTTP Request #
-#---------------------------#
-[JobPipeline.HTTPRequest]
-
-# MaxSize
-# - MaxSize defines the maximum size for HTTP requests and responses made by http and bridge adapters.
-#
-# - Default is 32768
-MaxSize = '700.00kb'
-
-
-#---------------------------#
 #           OCR             #
 #---------------------------#
 # - This section applies only if you are running off-chain reporting jobs.
@@ -169,6 +122,13 @@ MaxSize = '700.00kb'
 #
 # - Default is false
 Enabled = true
+
+# ObservationTimeout
+# - ObservationTimeout is the timeout for making observations using the DataSource.Observe method.
+# - (This is necessary because an oracle's operations are serialized, so blocking forever on an observation would break the oracle)
+#
+# - Default is '5s'
+ObservationTimeout = '1s'
 
 # KeyBundleID
 # - KeyBundleID is the default key bundle ID to use for OCR jobs. If you have an OCR job that does not explicitly specify a key bundle ID, it will fall back to this value.
@@ -238,7 +198,7 @@ AnnounceAddresses = ['']
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
 # - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
-DefaultBootstrappers = ['']
+DefaultBootstrappers = ['', '', '', '']
 
 # ListenAddresses
 # - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
@@ -259,7 +219,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '43114'
+ChainID = '250'
 
 # Enabled
 # - Enabled enables this chain.
@@ -271,19 +231,13 @@ Enabled = true
 # - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
 #
 # - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
-LinkContractAddress = '0x5947BB275c521040051D82396192181b413227A3'
+LinkContractAddress = '0x6F43FF82CCA38001B6699a8AC47A2d0E66939407'
 
 # MinContractPayment
 # - MinContractPayment is the minimum payment in LINK required to execute a direct request job. This can be overridden on a per-job basis.
 #
 # - Default is '10000000000000 juels'
-MinContractPayment = '0.00001 link'
-
-# MinIncomingConfirmations
-# - MinIncomingConfirmations is the minimum required confirmations before a log event will be consumed.
-#
-# - Default is 3
-MinIncomingConfirmations = 1
+MinContractPayment = '0.1 link'
 
 
 #---------------------------#
@@ -291,56 +245,25 @@ MinIncomingConfirmations = 1
 #---------------------------#
 [EVM.GasEstimator]
 
-# Mode
-# - Mode controls what type of gas estimator is used.
+# BumpThreshold
+# - BumpThreshold is the number of blocks to wait for a transaction stuck in the mempool before automatically bumping the gas price. Set to 0 to disable gas bumping completely.
 #
-# - Options:
-#  - FixedPrice uses static configured values for gas price (can be set via API call).
-#  - BlockHistory dynamically adjusts default gas price based on heuristics from mined blocks.
-#  - Optimism2/L2Suggested is a special mode only for use with Optimism and Metis blockchains. This mode will use the gas price suggested by the rpc endpoint via eth_gasPrice.
-#  - Arbitrum is a special mode only for use with Arbitrum blockchains.
-#    It uses the suggested gas price (up to ETH_MAX_GAS_PRICE_WEI, with 1000 gwei default) as well as an estimated gas limit (up to ETH_GAS_LIMIT_MAX,
-#    with 1,000,000,000 default).
-#
-# - Chainlink nodes decide what gas price to use using an Estimator.
-# - It ships with several simple and battle-hardened built-in estimators that should work well for almost all use-cases.
-# - Note that estimators will change their behaviour slightly depending on if you are in EIP-1559 mode or not.
-#
-# - You can also use your own estimator for gas price by selecting the FixedPrice estimator and using the exposed API to set the price.
-#
-# - An important point to note is that the Chainlink node does not ship with built-in support for go-ethereum's estimateGas call.
-# - This is for several reasons, including security and reliability.
-# - We have found empirically that it is not generally safe to rely on the remote ETH node's idea of what gas price should be.
-#
-# - Default is 'BlockHistory'
-Mode = 'BlockHistory'
+# - Default is 3
+BumpThreshold = 15
 
-# PriceDefault
-# - PriceDefault is the default gas price to use when submitting transactions to the blockchain.
-# - Will be overridden by the built-in BlockHistoryEstimator if enabled, and might be increased if gas bumping is enabled.
-#
-# - (Only applies to legacy transactions)
-#
-# - Can be used with the chainlink setgasprice to be updated while the node is still running.
-#
-# - Defaults is '20 gwei'
-PriceDefault = '25 gwei'
 
-# PriceMin
-# - PriceMin is the minimum gas price. Chainlink nodes will never pay less than this for a transaction.
+#---------------------------#
+#  EVM Gas Est Blockhistory #
+#---------------------------#
+# - These settings allow you to configure how your node calculates gas prices when using the block history estimator.
+# - In most cases, leaving these values at their defaults should give good results.
+[EVM.GasEstimator.BlockHistory]
+
+# BlockHistorySize
+# - BlockHistorySize controls the number of past blocks to keep in memory to use as a basis for calculating a percentile gas price.
 #
-# - (Only applies to legacy transactions)
-#
-# - It is possible to force the Chainlink node to use a fixed gas price by setting a combination of these, e.g.
-#  - EIP1559DynamicFees = false
-#  - PriceMax = 100
-#  - PriceMin = 100
-#  - PriceDefault = 100
-#  - BumpThreshold = 0
-#  - Mode = 'FixedPrice'
-#
-# - Default is '1 gwei'
-PriceMin = '25 gwei'
+# - Default is 8
+BlockHistorySize = 7
 
 
 #---------------------------#
@@ -352,7 +275,7 @@ PriceMin = '25 gwei'
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'Avalanche_Mainnet_00'
+Name = 'Fantom_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.

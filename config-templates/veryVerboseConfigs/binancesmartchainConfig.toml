@@ -993,8 +993,8 @@ AnnounceAddresses = ['']
 # DefaultBootstrappers
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
-# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234'] 
-DefaultBootstrappers = ['']
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
+DefaultBootstrappers = ['', '', '', '']
 
 # DeltaDial
 # - DeltaDial controls how far apart Dial attempts are

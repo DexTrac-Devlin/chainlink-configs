@@ -1,5 +1,4 @@
 ExplorerURL = 'wss://'
-
 RootDir = '/chainlink'
 
 [Feature]
@@ -37,21 +36,17 @@ RootDir = '/chainlink'
 [P2P.V2]
  Enabled = true
  AnnounceAddresses = ['']
- DefaultBootstrappers = ['']
+ DefaultBootstrappers = ['', '', '', '']
  ListenAddresses = ['']
 
 [[EVM]]
- ChainID = '1285'
+ ChainID = '1088'
  Enabled = true
  LinkContractAddress = '0x0000000000000000000000000000000000000000'
  MinContractPayment = '0.1 link'
 
-[EVM.GasEstimator]
- Mode = 'BlockHistory'
- BumpThreshold = 2
-
 [[EVM.Nodes]]
- Name = 'Moonriver_Mainnet_00'
+ Name = 'Metis_Mainnet_00'
  WSURL = 'wss://'
  HTTPURL = 'https://'
  SendOnly = false

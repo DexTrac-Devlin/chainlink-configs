@@ -13,7 +13,6 @@ ExplorerURL = 'wss://'
 # - Default is set to '/.chainlink'
 RootDir = '/chainlink'
 
-
 #---------------------------#
 #          Feature          #
 #---------------------------#
@@ -23,7 +22,6 @@ RootDir = '/chainlink'
 #
 # - Default is set to false
 FeedsManager = true
-
 
 #---------------------------#
 #            Log            #
@@ -53,7 +51,6 @@ FeedsManager = true
 # - Default is 'info'
 Level = 'info'
 
-
 #---------------------------#
 #          Log File         #
 #---------------------------#
@@ -74,7 +71,6 @@ Level = 'info'
 # - Default is '5120mb'
 MaxSize = '5120mb'
 
-
 #---------------------------#
 #         Web Server        #
 #---------------------------#
@@ -90,7 +86,6 @@ MaxSize = '5120mb'
 #
 # - Default is 'http://localhost:3000,http://localhost:6688'
 AllowOrigins = '*'
-
 
 #---------------------------#
 #       Web Server TLS      #
@@ -110,12 +105,10 @@ CertPath = '/chainlink/tls/server.crt'
 # - Example: KeyPath = '/home/$USER/.chainlink/tls/server.key'
 KeyPath = '/chainlink/tls/server.key'
 
-
 #---------------------------#
 #        Job Pipeline       #
 #---------------------------#
 [JobPipeline]
-
 
 #---------------------------#
 # Job Pipeline HTTP Request #
@@ -127,7 +120,6 @@ KeyPath = '/chainlink/tls/server.key'
 #
 # - Default is '15s'
 DefaultTimeout = '6s'
-
 
 #---------------------------#
 #           OCR             #
@@ -154,7 +146,6 @@ KeyBundleID = ''
 # - Example: TransmitterAddress = '0xa0788FC17B1dEe36f057c42B6F373A34B014687e'
 TransmitterAddress = ''
 
-
 #---------------------------#
 #           P2P             #
 #---------------------------#
@@ -174,7 +165,6 @@ TransmitterAddress = ''
 # - Example: PeerID = '12D3KooWMoejJznyDuEk5aX6GvbjaG12UzeornPCBNzMRqdwrFJw'
 PeerID = ''
 
-
 #---------------------------#
 #         P2P v1            #
 #---------------------------#
@@ -185,7 +175,6 @@ PeerID = ''
 #
 # Default is true
 Enabled = false
-
 
 #---------------------------#
 #         P2P v2            #
@@ -208,8 +197,8 @@ AnnounceAddresses = ['']
 # DefaultBootstrappers
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
-# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234'] 
-DefaultBootstrappers = ['']
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
+DefaultBootstrappers = ['', '', '', '']
 
 # ListenAddresses
 # - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
@@ -217,7 +206,6 @@ DefaultBootstrappers = ['']
 #
 # - Example: ListenAddresses = ['1.2.3.4:9999', '[a52d:0:a88:1274::abcd]:1337']
 ListenAddresses = ['']
-
 
 #---------------------------#
 #            EVM            #
@@ -230,7 +218,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '1284'
+ChainID = '42161'
 
 # Enabled
 # - Enabled enables this chain.
@@ -250,24 +238,6 @@ LinkContractAddress = '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4'
 # - Default is '10000000000000 juels'
 MinContractPayment = '0.1 link'
 
-
-#---------------------------#
-#      EVM Gas Estimator    #
-#---------------------------#
-[EVM.GasEstimator]
-
-# PriceMax
-# - PriceMax is the maximum gas price.
-# - Chainlink nodes will never pay more than this for a transaction.
-# - This applies to both legacy and EIP1559 transactions.
-# - Note that it is impossible to disable the maximum limit.
-# - Setting this value to zero will prevent paying anything for any transaction (which can be useful in some rare cases).
-# - Most chains by default have the maximum set to 2**256-1 Wei which is the maximum allowed gas price on EVM-compatible chains, and is so large it may as well be unlimited.
-#
-# - Default is '115792089237316195423570985008687907853269984665.640564039457584007913129639935'
-PriceMax = '100000000000000 tether'
-
-
 #---------------------------#
 #         EVM Nodes         #
 #---------------------------#
@@ -277,7 +247,7 @@ PriceMax = '100000000000000 tether'
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'Moonbeam_Mainnet_00'
+Name = 'Arbitrum_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.

@@ -8,7 +8,7 @@ RootDir = '/chainlink'
  Level = 'info'
 
 [Log.File]
- MaxSize = '5120mb'
+ MaxSize = '5120b'
 
 [WebServer]
  AllowOrigins = '*'
@@ -17,13 +17,9 @@ RootDir = '/chainlink'
  CertPath = '/chainlink/tls/server.crt'
  KeyPath = '/chainlink/tls/server.key'
 
-[JobPipeline]
-
-[JobPipeline.HTTPRequest]
- DefaultTimeout = '6s'
-
 [OCR]
  Enabled = true
+ ObservationTimeout = '1s'
  KeyBundleID = ''
  TransmitterAddress = ''
 
@@ -36,22 +32,23 @@ RootDir = '/chainlink'
 [P2P.V2]
  Enabled = true
  AnnounceAddresses = ['']
- DefaultBootstrappers = ['']
+ DefaultBootstrappers = ['', '', '', '']
  ListenAddresses = ['']
 
 [[EVM]]
- ChainID = '56'
+ ChainID = '250'
  Enabled = true
- LinkContractAddress = '0x404460C6A5EdE2D891e8297795264fDe62ADBB75'
+ LinkContractAddress = '0x6F43FF82CCA38001B6699a8AC47A2d0E66939407'
  MinContractPayment = '0.1 link'
- MinIncomingConfirmations = 1
 
 [EVM.GasEstimator]
- Mode = 'BlockHistory'
- BumpThreshold = 3
+ BumpThreshold = 15
+
+[EVM.GasEstimator.BlockHistory]
+ BlockHistorySize = 7
 
 [[EVM.Nodes]]
- Name = 'BinanceSmartChain_Mainnet_00'
+ Name = 'Fantom_Mainnet_00'
  WSURL = 'wss://'
  HTTPURL = 'https://'
  SendOnly = false

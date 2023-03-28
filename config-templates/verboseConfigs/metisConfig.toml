@@ -59,11 +59,6 @@ Level = 'info'
 #---------------------------#
 [Log.File]
 
-# Dir
-# - Dir sets the log directory. By default, Chainlink nodes write log data to $ROOT/log.jsonl.
-#
-# - Example: Dir = '/my/log/directory'
-
 # MaxSize
 # - MaxSize determines the log file's max size in megabytes before file rotation.
 # - Having this not set will disable logging to disk.
@@ -120,6 +115,7 @@ KeyPath = '/chainlink/tls/server.key'
 #        Job Pipeline       #
 #---------------------------#
 [JobPipeline]
+
 
 #---------------------------#
 # Job Pipeline HTTP Request #
@@ -212,8 +208,8 @@ AnnounceAddresses = ['']
 # DefaultBootstrappers
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
-# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234'] 
-DefaultBootstrappers = ['']
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
+DefaultBootstrappers = ['', '', '', '']
 
 # ListenAddresses
 # - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
@@ -234,7 +230,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '100'
+ChainID = '1088'
 
 # Enabled
 # - Enabled enables this chain.
@@ -246,7 +242,7 @@ Enabled = true
 # - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
 #
 # - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
-LinkContractAddress = '0xE2e73A1c69ecF83F464EFCE6A5be353a37cA09b2'
+LinkContractAddress = '0x0000000000000000000000000000000000000000'
 
 # MinContractPayment
 # - MinContractPayment is the minimum payment in LINK required to execute a direct request job. This can be overridden on a per-job basis.
@@ -264,7 +260,7 @@ MinContractPayment = '0.1 link'
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'Gnosis_Mainnet_00'
+Name = 'Metis_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.

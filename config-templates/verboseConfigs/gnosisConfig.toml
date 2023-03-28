@@ -13,6 +13,7 @@ ExplorerURL = 'wss://'
 # - Default is set to '/.chainlink'
 RootDir = '/chainlink'
 
+
 #---------------------------#
 #          Feature          #
 #---------------------------#
@@ -22,6 +23,7 @@ RootDir = '/chainlink'
 #
 # - Default is set to false
 FeedsManager = true
+
 
 #---------------------------#
 #            Log            #
@@ -51,10 +53,16 @@ FeedsManager = true
 # - Default is 'info'
 Level = 'info'
 
+
 #---------------------------#
 #          Log File         #
 #---------------------------#
 [Log.File]
+
+# Dir
+# - Dir sets the log directory. By default, Chainlink nodes write log data to $ROOT/log.jsonl.
+#
+# - Example: Dir = '/my/log/directory'
 
 # MaxSize
 # - MaxSize determines the log file's max size in megabytes before file rotation.
@@ -71,6 +79,7 @@ Level = 'info'
 # - Default is '5120mb'
 MaxSize = '5120mb'
 
+
 #---------------------------#
 #         Web Server        #
 #---------------------------#
@@ -86,6 +95,7 @@ MaxSize = '5120mb'
 #
 # - Default is 'http://localhost:3000,http://localhost:6688'
 AllowOrigins = '*'
+
 
 #---------------------------#
 #       Web Server TLS      #
@@ -105,6 +115,7 @@ CertPath = '/chainlink/tls/server.crt'
 # - Example: KeyPath = '/home/$USER/.chainlink/tls/server.key'
 KeyPath = '/chainlink/tls/server.key'
 
+
 #---------------------------#
 #        Job Pipeline       #
 #---------------------------#
@@ -120,6 +131,7 @@ KeyPath = '/chainlink/tls/server.key'
 #
 # - Default is '15s'
 DefaultTimeout = '6s'
+
 
 #---------------------------#
 #           OCR             #
@@ -146,6 +158,7 @@ KeyBundleID = ''
 # - Example: TransmitterAddress = '0xa0788FC17B1dEe36f057c42B6F373A34B014687e'
 TransmitterAddress = ''
 
+
 #---------------------------#
 #           P2P             #
 #---------------------------#
@@ -165,6 +178,7 @@ TransmitterAddress = ''
 # - Example: PeerID = '12D3KooWMoejJznyDuEk5aX6GvbjaG12UzeornPCBNzMRqdwrFJw'
 PeerID = ''
 
+
 #---------------------------#
 #         P2P v1            #
 #---------------------------#
@@ -175,6 +189,7 @@ PeerID = ''
 #
 # Default is true
 Enabled = false
+
 
 #---------------------------#
 #         P2P v2            #
@@ -197,8 +212,8 @@ AnnounceAddresses = ['']
 # DefaultBootstrappers
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
-# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234'] 
-DefaultBootstrappers = ['']
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
+DefaultBootstrappers = ['', '', '', '']
 
 # ListenAddresses
 # - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
@@ -206,6 +221,7 @@ DefaultBootstrappers = ['']
 #
 # - Example: ListenAddresses = ['1.2.3.4:9999', '[a52d:0:a88:1274::abcd]:1337']
 ListenAddresses = ['']
+
 
 #---------------------------#
 #            EVM            #
@@ -218,7 +234,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '42161'
+ChainID = '100'
 
 # Enabled
 # - Enabled enables this chain.
@@ -230,13 +246,14 @@ Enabled = true
 # - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
 #
 # - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
-LinkContractAddress = '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4'
+LinkContractAddress = '0xE2e73A1c69ecF83F464EFCE6A5be353a37cA09b2'
 
 # MinContractPayment
 # - MinContractPayment is the minimum payment in LINK required to execute a direct request job. This can be overridden on a per-job basis.
 #
 # - Default is '10000000000000 juels'
 MinContractPayment = '0.1 link'
+
 
 #---------------------------#
 #         EVM Nodes         #
@@ -247,7 +264,7 @@ MinContractPayment = '0.1 link'
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'Arbitrum_Mainnet_00'
+Name = 'Gnosis_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.

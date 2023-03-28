@@ -208,8 +208,8 @@ AnnounceAddresses = ['']
 # DefaultBootstrappers
 # - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
 #
-# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234'] 
-DefaultBootstrappers = ['']
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
+DefaultBootstrappers = ['', '', '', '']
 
 # ListenAddresses
 # - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
@@ -230,7 +230,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '56'
+ChainID = '1284'
 
 # Enabled
 # - Enabled enables this chain.
@@ -242,7 +242,7 @@ Enabled = true
 # - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
 #
 # - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
-LinkContractAddress = '0x404460C6A5EdE2D891e8297795264fDe62ADBB75'
+LinkContractAddress = '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4'
 
 # MinContractPayment
 # - MinContractPayment is the minimum payment in LINK required to execute a direct request job. This can be overridden on a per-job basis.
@@ -250,47 +250,22 @@ LinkContractAddress = '0x404460C6A5EdE2D891e8297795264fDe62ADBB75'
 # - Default is '10000000000000 juels'
 MinContractPayment = '0.1 link'
 
-# MinIncomingConfirmations
-# - MinIncomingConfirmations is the minimum required confirmations before a log event will be consumed.
-#
-# - Default is 3
-MinIncomingConfirmations = 1
-
 
 #---------------------------#
 #      EVM Gas Estimator    #
 #---------------------------#
 [EVM.GasEstimator]
 
-# Mode
-# - Mode controls what type of gas estimator is used.
+# PriceMax
+# - PriceMax is the maximum gas price.
+# - Chainlink nodes will never pay more than this for a transaction.
+# - This applies to both legacy and EIP1559 transactions.
+# - Note that it is impossible to disable the maximum limit.
+# - Setting this value to zero will prevent paying anything for any transaction (which can be useful in some rare cases).
+# - Most chains by default have the maximum set to 2**256-1 Wei which is the maximum allowed gas price on EVM-compatible chains, and is so large it may as well be unlimited.
 #
-# - Options:
-#  - FixedPrice uses static configured values for gas price (can be set via API call).
-#  - BlockHistory dynamically adjusts default gas price based on heuristics from mined blocks.
-#  - Optimism2/L2Suggested is a special mode only for use with Optimism and Metis blockchains. This mode will use the gas price suggested by the rpc endpoint via eth_gasPrice.
-#  - Arbitrum is a special mode only for use with Arbitrum blockchains.
-#    It uses the suggested gas price (up to ETH_MAX_GAS_PRICE_WEI, with 1000 gwei default) as well as an estimated gas limit (up to ETH_GAS_LIMIT_MAX,
-#    with 1,000,000,000 default).
-#
-# - Chainlink nodes decide what gas price to use using an Estimator.
-# - It ships with several simple and battle-hardened built-in estimators that should work well for almost all use-cases.
-# - Note that estimators will change their behaviour slightly depending on if you are in EIP-1559 mode or not.
-#
-# - You can also use your own estimator for gas price by selecting the FixedPrice estimator and using the exposed API to set the price.
-#
-# - An important point to note is that the Chainlink node does not ship with built-in support for go-ethereum's estimateGas call.
-# - This is for several reasons, including security and reliability.
-# - We have found empirically that it is not generally safe to rely on the remote ETH node's idea of what gas price should be.
-#
-# - Default is 'BlockHistory'
-Mode = 'BlockHistory'
-
-# BumpThreshold
-# - BumpThreshold is the number of blocks to wait for a transaction stuck in the mempool before automatically bumping the gas price. Set to 0 to disable gas bumping completely.
-#
-# - Default is 3
-BumpThreshold = 3
+# - Default is '115792089237316195423570985008687907853269984665.640564039457584007913129639935'
+PriceMax = '100000000000000 tether'
 
 
 #---------------------------#
@@ -302,7 +277,7 @@ BumpThreshold = 3
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'BinanceSmartChain_Mainnet_00'
+Name = 'Moonbeam_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.
