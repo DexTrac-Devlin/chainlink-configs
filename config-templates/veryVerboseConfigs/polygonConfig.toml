@@ -449,7 +449,7 @@ Level = 'info'
 #  - tb (terabytes)
 #
 # - Default is '5120mb'
-MaxSize = '0mb'
+MaxSize = '5120mb'
 
 # MaxAgeDays
 # - MaxAgeDays determines the log file's max age in days before file rotation.
