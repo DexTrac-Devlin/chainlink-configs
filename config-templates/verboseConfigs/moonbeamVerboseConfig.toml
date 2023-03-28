@@ -230,7 +230,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '42161'
+ChainID = '1284'
 
 # Enabled
 # - Enabled enables this chain.
