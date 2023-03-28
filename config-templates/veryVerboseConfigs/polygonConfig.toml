@@ -619,7 +619,7 @@ KeyPath = '/chainlink/tls/server.key'
 #---------------------------#
 #        Job Pipeline       #
 #---------------------------#
-[JobPipeline]
+#[JobPipeline]
 
 # ExternalInitiatorsEnabled
 # - ExternalInitiatorsEnabled enables the External Initiator feature.
@@ -673,13 +673,13 @@ KeyPath = '/chainlink/tls/server.key'
 #---------------------------#
 # Job Pipeline HTTP Request #
 #---------------------------#
-[JobPipeline.HTTPRequest]
+#[JobPipeline.HTTPRequest]
 
 # DefaultTimeout
 # - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
 #
 # - Default is '15s'
-DefaultTimeout = '6s'
+#DefaultTimeout = '6s'
 
 # MaxSize
 # - MaxSize defines the maximum size for HTTP requests and responses made by http and bridge adapters.
