@@ -18,6 +18,11 @@ RootDir = '/chainlink'
  CertPath = '/chainlink/tls/server.crt'
  KeyPath = '/chainlink/tls/server.key'
 
+[JobPipeline]
+
+[JobPipeline.HTTPRequest]
+ DefaultTimeout = '6s'
+
 [OCR]
  Enabled = true
  KeyBundleID = ''
