@@ -1,6 +1,6 @@
 ExplorerURL = 'wss://'
-
 RootDir = '/chainlink'
+
 
 [Feature]
  FeedsManager = true
@@ -21,10 +21,12 @@ RootDir = '/chainlink'
 [JobPipeline]
 
 [JobPipeline.HTTPRequest]
- DefaultTimeout = '6s'
+ DefaultTimeout = '2s'
 
 [OCR]
  Enabled = true
+ ObservationTimeout = '1s'
+ BlockchainTimeout = '1s'
  KeyBundleID = ''
  TransmitterAddress = ''
 
@@ -54,6 +56,10 @@ RootDir = '/chainlink'
 [EVM.GasEstimator.BlockHistory]
  BlockHistorySize = 12
  TransactionPercentile = 75
+
+[EVM.OCR]
+ ContractTransmitterTransmitTimeout = '1s'
+ DatabaseTimeout = '1s'
 
 [[EVM.Nodes]]
  Name = 'Polygon_Mainnet_00'

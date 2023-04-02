@@ -24,6 +24,7 @@ RootDir = '/chainlink'
 # - Default is set to false
 FeedsManager = true
 
+
 #---------------------------#
 #            Log            #
 #---------------------------#
@@ -51,7 +52,6 @@ FeedsManager = true
 #
 # - Default is 'info'
 Level = 'info'
-
 
 #---------------------------#
 #          Log File         #
@@ -125,7 +125,7 @@ KeyPath = '/chainlink/tls/server.key'
 # - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
 #
 # - Default is '15s'
-DefaultTimeout = '6s'
+DefaultTimeout = '2s'
 
 
 #---------------------------#
@@ -139,6 +139,20 @@ DefaultTimeout = '6s'
 #
 # - Default is false
 Enabled = true
+
+# ObservationTimeout
+# - ObservationTimeout is the timeout for making observations using the DataSource.Observe method.
+# - (This is necessary because an oracle's operations are serialized, so blocking forever on an observation would break the oracle)
+#
+# - Default is '5s'
+ObservationTimeout = '1s'
+
+# BlockchainTimeout
+# - BlockchainTimeout is the timeout for blockchain queries (mediated through ContractConfigTracker and ContractTransmitter).
+# - (This is necessary because an oracle's operations are serialized, so blocking forever on a chain interaction would break the oracle.)
+#
+# - Default is '20s'
+BlockchainTimeout = '1s'
 
 # KeyBundleID
 # - KeyBundleID is the default key bundle ID to use for OCR jobs. If you have an OCR job that does not explicitly specify a key bundle ID, it will fall back to this value.
@@ -322,6 +336,24 @@ BlockHistorySize = 12
 #
 # - Default is 60
 TransactionPercentile = 75
+
+
+#---------------------------#
+#          EVM OCR          #
+#---------------------------#
+[EVM.OCR]
+
+# ContractTransmitterTransmitTimeout
+# - ContractTransmitterTransmitTimeout sets OCR.ContractTransmitterTransmitTimeout for this EVM chain.
+#
+# - Default is '10s'
+ContractTransmitterTransmitTimeout = '1s'
+
+# DatabaseTimeout
+# - DatabaseTimeout sets OCR.DatabaseTimeout for this EVM chain.
+#
+# - Default is '10s'
+DatabaseTimeout = '1s'
 
 
 #---------------------------#

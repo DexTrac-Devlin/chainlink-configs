@@ -21,11 +21,17 @@
 # - [Feature]
 #  - Feeds Manager is enabled
 #
+# - [JobPipeline]
+#  - Enable by uncommenting
+#
 # - [JobPipeline.HTTPRequest]
-#  - DefaultTimeout = '6s'
+#  - DefaultTimeout = '2s'
 #
 # - [OCR]
 #  - Enabled = true
+#   - ObservationTimeout = '1s'
+#   - BlockchainTimeout = '1s'
+#    - Adjust these down to 1s to increase transmit success
 #   - Be sure to update the necessary values
 #    - KeyBundleID
 #    - TransmitterAddress
@@ -58,7 +64,11 @@
 #  - Adjusted to increase confirmations in times of high gas volatility
 #  - BlockHistorySize = 12
 #  - TransactionPercentile = 75
-
+#
+# - [EVM.OCR]
+#  - ContractTransmitterTransmitTimeout = '1s'
+#  - DatabaseTimeout = '1s'
+#   - Adjust these to 1s to increase transmit success
 
 #---------------------------#
 #          Global           #
@@ -682,7 +692,7 @@ KeyPath = '/chainlink/tls/server.key'
 # - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
 #
 # - Default is '15s'
-DefaultTimeout = '6s'
+DefaultTimeout = '2s'
 
 # MaxSize
 # - MaxSize defines the maximum size for HTTP requests and responses made by http and bridge adapters.
@@ -802,14 +812,14 @@ Enabled = true
 # - (This is necessary because an oracle's operations are serialized, so blocking forever on an observation would break the oracle)
 #
 # - Default is '5s'
-#ObservationTimeout = '5s'
+ObservationTimeout = '1s'
 
 # BlockchainTimeout
 # - BlockchainTimeout is the timeout for blockchain queries (mediated through ContractConfigTracker and ContractTransmitter).
 # - (This is necessary because an oracle's operations are serialized, so blocking forever on a chain interaction would break the oracle.)
 #
 # - Default is '20s'
-#BlockchainTimeout = '20s'
+BlockchainTimeout = '1s'
 
 # ContractPollInterval
 # - ContractPollInterval is the polling interval at which ContractConfigTracker is queried for updated on-chain configurations.
@@ -1867,7 +1877,7 @@ TransactionPercentile = 75
 #---------------------------#
 #          EVM OCR          #
 #---------------------------#
-#[EVM.OCR]
+[EVM.OCR]
 
 # ContractConfirmations
 # - ContractConfirmations sets OCR.ContractConfirmations for this EVM chain.
@@ -1879,13 +1889,13 @@ TransactionPercentile = 75
 # - ContractTransmitterTransmitTimeout sets OCR.ContractTransmitterTransmitTimeout for this EVM chain.
 #
 # - Default is '10s'
-#ContractTransmitterTransmitTimeout = '10s'
+ContractTransmitterTransmitTimeout = '1s'
 
 # DatabaseTimeout
 # - DatabaseTimeout sets OCR.DatabaseTimeout for this EVM chain.
 #
 # - Default is '10s'
-#DatabaseTimeout = '10s'
+DatabaseTimeout = '1s'
 
 
 #---------------------------#
