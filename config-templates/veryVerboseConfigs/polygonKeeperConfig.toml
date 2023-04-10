@@ -50,10 +50,10 @@
 #   - DefaultBootstrappeers = ['$P2P_PEER_ID@$BOOTSTRAP_00_DNS:$PORT $P2P_PEER_ID@$BOOTSTRAP_01_DNS:$PORT']
 #
 # - [[EVM]]
-#  - Configured for BinanceSmartChain Mainnet.
+#  - Configured for Polygon Mainnet.
 #  - If you're on a different network, be sure to update these values
-#   - ChainID = '56'
-#   - LinkContractAddress = '0x404460C6A5EdE2D891e8297795264fDe62ADBB75'
+#   - ChainID = '137'
+#   - LinkContractAddress = '0xb0897686c545045aFc77CF20eC7A532E3120E0F1'
 #   - MinContractPayment = '0.1 link'
 
 
@@ -1894,7 +1894,7 @@ MinContractPayment = '0.1 link'
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'Polygon_Mainnet_00'
+Name = 'BinanceSmartChain_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.
