@@ -1,7 +1,6 @@
 ExplorerURL = 'wss://'
 RootDir = '/chainlink'
 
-
 [Feature]
  FeedsManager = true
 
