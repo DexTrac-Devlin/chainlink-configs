@@ -37,6 +37,8 @@ RootDir = '/chainlink'
 [P2P]
  PeerID = ''
  TraceLogging = true
+ #KeyBundleID = ''
+
 
 [P2P.V1]
  Enabled = false

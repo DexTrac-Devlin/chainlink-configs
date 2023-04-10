@@ -33,7 +33,7 @@
 #
 # - [OCR2]
 #  - Enabled = true
-#  - #KeyBundleID = '<<node-ocr2-id>>'
+#  - KeyBundleID = ''
 #   - Be sure to leave this commented out when initializing the node.
 #     Once the node has been initialized, edit this config to include the KeyBundleId and uncomment the line.
 #
