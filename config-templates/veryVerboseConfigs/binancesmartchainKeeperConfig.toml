@@ -1255,7 +1255,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-ChainID = '42161'
+ChainID = '56'
 
 # Enabled
 # - Enabled enables this chain.
@@ -1319,7 +1319,7 @@ Enabled = true
 # - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
 #
 # - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
-LinkContractAddress = '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4'
+LinkContractAddress = '0x404460C6A5EdE2D891e8297795264fDe62ADBB75'
 
 # LogBackfillBatchSize
 # - ADVANCED: Do not change this setting unless you know what you are doing.
@@ -1894,7 +1894,7 @@ MinContractPayment = '0.1 link'
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-Name = 'Arbitrum_Mainnet_00'
+Name = 'BinanceSmartChain_Mainnet_00'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.
