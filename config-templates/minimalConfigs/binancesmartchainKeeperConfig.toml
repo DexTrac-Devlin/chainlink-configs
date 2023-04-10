@@ -33,12 +33,11 @@ RootDir = '/chainlink'
 
 [OCR2]
  Enabled = true
+ #KeyBundleID = ''
 
 [P2P]
  PeerID = ''
  TraceLogging = true
- #KeyBundleID = ''
-
 
 [P2P.V1]
  Enabled = false
