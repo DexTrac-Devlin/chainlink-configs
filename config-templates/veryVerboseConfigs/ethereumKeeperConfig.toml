@@ -1,0 +1,2103 @@
+#---------------------------#
+#          Notes            #
+#---------------------------#
+# This config has some non-default settings.
+#
+# These include:
+#
+# - [WebServer]
+#  - AllowOrigins = '*'
+#
+# - [Webserver.TLS] (enabled)
+#   - Cert and key path are as suggested in Chainlink docs
+#    - https://docs.chain.link/chainlink-nodes/resources/enabling-https-connections
+#     - CertPath = '/.chainlink/tls/server.crt'
+#     - KeyPath = '/.chainlink/tls/server.key'
+#
+# - [Feature]
+#  - Feeds Manager is enabled
+#  - LogPoller is enabled
+#  - UICSAKeys is enabled
+#
+# - [Database]
+#  - MaxIdleConns = 20
+#  - MaxOpenConns = 40
+#
+# - [TelemetryIngress]
+#  - Update the two values with what is provided to you.
+#   - ServerPubKey = ''
+#   - URL = ''
+#
+# - [JobPipeline.HTTPRequest]
+#  - DefaultTimeout = '6s'
+#
+# - [OCR2]
+#  - Enabled = true
+#  - KeyBundleID = ''
+#   - Be sure to leave this commented out when initializing the node.
+#     Once the node has been initialized, edit this config to include the KeyBundleId and uncomment the line.
+#
+# - [P2P]
+#  - Be sure to update the necessary value after the node has been initialized.
+#   - PeerID = '12D...'
+#  - TraceLogging = true
+#
+# - [P2P.V2]
+#  - Enabled = true
+#  - Be sure to update the necessary values
+#   - AnnounceAddresses = ['$PUBLIC_IP_ADDRESS:$PORT']
+#   - ListenAddresses = ['0.0.0.0:$PORT']
+#   - DefaultBootstrappeers = ['$P2P_PEER_ID@$BOOTSTRAP_00_DNS:$PORT $P2P_PEER_ID@$BOOTSTRAP_01_DNS:$PORT']
+#
+# - [[EVM]]
+#  - Configured for Ethereum Mainnet.
+#  - If you're on a different network, be sure to update these values
+#   - ChainID = '1'
+#   - LinkContractAddress = '0x514910771AF9Ca656af840dff83E8264EcF986CA'
+#   - MinContractPayment = '0.1 link'
+
+
+#---------------------------#
+#          Global           #
+#---------------------------#
+# ExplorerURL
+# - ExplorerURL is the websocket URL for the node to push stats to.
+#ExplorerURL = 'wss://'
+
+# InsecureFastScrypt
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - InsecureFastScrypt causes all key stores to encrypt using "fast" scrypt params instead.
+# - This is insecure and only useful for local testing. DO NOT ENABLE THIS IN PRODUCTION.
+#
+# - Default is set to false
+#InsecureFastScrypt = false
+
+# RootDir
+# - RootDir is the Chainlink node's root directory.
+# - This is the default directory for logging, database backups, cookies, and other misc Chainlink node files.
+# - Chainlink nodes will always ensure this directory has 700 permissions because it might contain sensitive data.
+#
+# - Default is set to '/.chainlink'
+RootDir = '/chainlink'
+
+# ShutdownGracePeriod
+# - ShutdownGracePeriod is the maximum time allowed to shut down gracefully.
+# - If exceeded, the node will terminate immediately to avoid being SIGKILLed.
+#
+# - Default is set to '5s'
+#ShutdownGracePeriod = '5s'
+
+
+#---------------------------#
+#          Feature          #
+#---------------------------#
+[Feature]
+# FeedsManager
+# - FeedsManager enables the experimental feeds manager service.
+#
+# - Default is set to false
+FeedsManager = true
+
+# LogPoller
+# - LogPoller enables the log poller, an experimental approach to processing logs, required if also using Evm.UseForwarders or OCR2.
+#
+# - Default is set to false
+LogPoller = true
+
+# UICSAKeys
+# - UICSAKeys enables CSA Keys in the UI.
+#
+# - Default is set to false
+UICSAKeys = true
+
+
+#---------------------------#
+#          Database         #
+#---------------------------#
+[Database]
+# DefaultIdleInTxSessionTimeout
+# - DefaultIdleInTxSessionTimeout is the maximum time allowed for queries to idle in transaction before timing out.
+#
+# - Default is set to '1h'
+#DefaultIdleInTxSessionTimeout = '1h'
+
+# DefaultLockTimeout
+# - DefaultLockTimeout is the maximum time allowed for a query stuck waiting to take a lock before timing out.
+#
+# - Default is '15s'
+#DefaultLockTimeout = '15s'
+
+# DefaultQueryTimeout
+# - DefaultQueryTimeout is the maximum time allowed for standard queries before timing out.
+#
+# - Default is '10s'
+#DefaultQueryTimeout = '10s'
+
+# LogQueries
+# - LogQueries tells the Chainlink node to log database queries made using the default logger.
+# - SQL statements will be logged at debug level. Not all statements can be logged.
+# - The best way to get a true log of all SQL statements is to enable SQL statement logging on Postgres.
+#
+# - Default is false
+#LogQueries = false
+
+# MaxIdleConns
+# - MaxIdleConns configures the maximum number of idle database connections that the Chainlink node will keep open.
+# - Think of this as the baseline number of database connections per Chainlink node instance.
+# - Increasing this number can help to improve performance under database-heavy workloads.
+#
+# - Postgres has connection limits, so you must use cation when increasing this value.
+# - If you are running several instances of a Chainlink node or another application on a single database server,
+#   you might run out of Postgres connection slots if you raise this value too high.
+#
+# - Default is 10
+MaxIdleConns = 20
+
+# MaxOpenConns
+# - MaxOpenConns configures the maximum number of database connections that a Chainlink node will have open at any one time.
+# - Think of this as the maximum burst upper bound limit of database connections per Chainlink node instance.
+# - Increasing this number can help to improve performance under database-heavy workloads.
+#
+# - Postgres has connection limits, so you must use cation when increasing this value.
+# - If you are running several instances of a Chainlink node or another application on a single database server,
+#   you might run out of Postgres connection slots if you raise this value too high.
+#
+# - Default is 20
+MaxOpenConns = 40
+
+# MigrateOnStartup
+# - MigrateOnStartup controls whether a Chainlink node will attempt to automatically migrate the database on boot.
+# - If you want more control over your database migration process,
+#   set this variable to false and manually migrate the database using the CLI migrate command instead.
+#
+# - Default is true
+#MigrateOnStartup = true
+
+
+#---------------------------#
+#       Database Backup     #
+#---------------------------#
+# - As a best practice, take regular database backups in case of accidental data loss.
+# - This best practice is especially important when you upgrade your Chainlink node to a new version.
+# - Chainlink nodes support automated database backups to make this process easier.
+#
+# - NOTE: Dumps can cause high load and massive database latencies, which will negatively impact the normal functioning of the Chainlink node.
+# - For this reason, it is recommended to set a URL and point it to a read replica if you enable automatic backups.
+#[Database.Backup]
+
+# Mode
+# - Mode sets the type of automatic database backup, which can be one of none, lite, or full.
+# - If enabled, the Chainlink node will always dump a backup on every boot before running migrations.
+# - Additionally, it will automatically take database backups that overwrite the backup file for the given version at regular intervals
+#   if Frequency is set to a non-zero interval.
+#
+# - It will write to a file like $ROOT/backup/cl_backup_<VERSION>.dump.
+# - There is one backup dump file per version of the Chainlink node.
+# - If you upgrade the node, it will keep the backup taken right before the upgrade migration so you can restore to an older version if necessary.
+#
+# - Options:
+#  - none - Disables backups.
+#  - lite - Dumps small tables including configuration and keys that are essential for the node to function,
+#           which excludes historical data like job runs, transaction history, etc.
+#  - full - Dumps the entire database.
+#
+# - Default is 'none'
+#Mode = 'none'
+
+# Dir
+# - Dir sets the directory to use for saving the backup file. Use this if you want to save the backup file in a directory other than the default ROOT directory.
+#
+# - Example: Dir = 'test/backup/dir'
+#Dir = ''
+
+# OnVersionUpgrade
+# - OnVersionUpgrade enables automatic backups of the database before running migrations, when you are upgrading to a new version.
+#
+# - Default is true
+#OnVersionUpgrade = true
+
+# Frequency
+# - Frequency sets the interval for database dumps, if set to a positive duration and Mode is not none.
+#
+# - Set to 0 to disable periodic backups.
+#
+# - Default is '1h'
+#Frequency = '1h'
+
+
+#---------------------------#
+#      Database Listener    #
+#---------------------------#
+# - ADVANCED: Do not change these settings unless you know what you are doing.
+# - These settings control the postgres event listener.
+#[Database.Listener]
+
+# MaxReconnectDuration
+# - MaxReconnectDuration is the maximum duration to wait between reconnect attempts.
+# - Default is '10m'
+#MaxReconnectDuration = '10m'
+
+# MinReconnectInterval
+# - MinReconnectInterval controls the duration to wait before trying to re-establish the database connection after connection loss.
+# - After each consecutive failure this interval is doubled, until MaxReconnectInterval is reached.
+# - Successfully completing the connection establishment procedure resets the interval back to MinReconnectInterval.
+#
+# - Default is '1m'
+#MinReconnectInterval = '1m'
+
+# FallbackPollInterval
+# - FallbackPollInterval controls how often clients should manually poll as a fallback in case the postgres event was missed/dropped.
+#
+# - Default is '30s'
+#FallbackPollInterval = '30s'
+
+
+#---------------------------#
+#        Database Lock      #
+#---------------------------#
+# - ADVANCED: Do not change these settings unless you know what you are doing.
+# - Ideally, you should use a container orchestration system like Kubernetes to ensure that
+#   only one Chainlink node instance can ever use a specific Postgres database.
+# - However, some node operators do not have the technical capacity to do this.
+# - Common use cases run multiple Chainlink node instances in failover mode as recommended by our official documentation.
+# - The first instance takes a lock on the database and subsequent instances will wait trying to take this lock in case the first instance fails.
+#  - If your nodes or applications hold locks open for several hours or days,
+#    Postgres is unable to complete internal cleanup tasks.
+#    The Postgres maintainers explicitly discourage holding locks open for long periods of time.
+#
+# - Because of the complications with advisory locks, Chainlink nodes with v2.0 and later only support lease locking mode.
+#   The lease locking mode works using the following process:
+#  - Node A creates one row in the database with the client ID and updates it once per second.
+#  - Node B spinlocks and checks periodically to see if the client ID is too old.
+#    If the client ID is not updated after a period of time, node B assumes that node A failed and takes over.
+#    Node B becomes the owner of the row and updates the client ID once per second.
+#  - If node A comes back, it attempts to take out a lease,
+#    realizes that the database has been leased to another process,
+#    and exits the entire application immediately.
+#[Database.Lock]
+
+# Enabled
+# - Enabled enables the database lock.
+#
+# - Default is true
+#Enabled = true
+
+# LeaseDuration
+# - LeaseDuration is how long the lease lock will last before expiring.
+#
+# - Default is '10s'
+#LeaseDuration = '10s'
+
+# LeaseRefreshInterval
+# - LeaseRefreshInterval determines how often to refresh the lease lock.
+# - Also controls how often a standby node will check to see if it can grab the lease.
+#
+# - Default is '1s'
+#LeaseRefreshInterval = '1s'
+
+
+#---------------------------#
+#      Telemetry Ingress    #
+#---------------------------#
+[TelemetryIngress]
+
+# UniConn
+# - UniConn toggles which ws connection style is used.
+#
+# - Default is true
+#UniConn = true
+
+# Logging
+# - Logging toggles verbose logging of the raw telemetry messages being sent.
+#
+# - Default is false
+#Logging = false
+
+# ServerPubKey
+# - ServerPubKey is the public key of the telemetry server.
+#
+# - Example: ServerPubKey = 'test-pub-key'
+ServerPubKey = ''
+
+# URL
+# - URL is where to send telemetry.
+#
+# - Example: URL = 'https://prom.test'
+URL = ''
+
+# BufferSize
+# - BufferSize is the number of telemetry messages to buffer before dropping new ones.
+#
+# - Default is 100
+#BufferSize = 100
+
+# MaxBatchSize
+# - MaxBatchSize is the maximum number of messages to batch into one telemetry request.
+#
+# - Default is 50
+#MaxBatchSize = 50
+
+# SendInterval
+# - SendInterval determines how often batched telemetry is sent to the ingress server.
+#
+# - Default is '500ms'
+#SendInterval = '500ms'
+
+#SendTimeout
+# - SendTimeout is the max duration to wait for the request to complete when sending batch telemetry.
+#
+# - Default is '10s'
+#SendTimeout = '10s'
+
+# UseBatchSend
+# - UseBatchSend toggles sending telemetry to the ingress server using the batch client.
+#
+# - Default is true
+#UseBatchSend = true
+
+
+#---------------------------#
+#        Audit Logger       #
+#---------------------------#
+#[AuditLogger]
+
+# Enabled
+# - Enabled determines if this logger should be configured at all
+#
+# - Default is false
+#Enabled = false
+
+# ForwardToUrl
+# - ForwardToUrl is where you want to forward logs to
+#
+# - Example: ForwardToUrl = 'http://localhost:9898'
+
+# JsonWrapperKey
+# - JsonWrapperKey if set wraps the map of data under another single key to make parsing easier
+#
+# - Example: JsonWrapperKey = 'event'
+
+# Headers
+# - Headers is the set of headers you wish to pass along with each request
+#
+# - Example: Headers = ['Authorization: token', 'X-SomeOther-Header: value with spaces | and a bar+*']
+
+
+#---------------------------#
+#            Log            #
+#---------------------------#
+[Log]
+
+# Level
+# - Level determines both what is printed on the screen and what is written to the log file.
+#
+# - The available levels are:
+#  - "debug": Useful for forensic debugging of issues.
+#  - "info": High-level informational messages. (default)
+#  - "warn": A mild error occurred that might require non-urgent action.
+#    Check these warnings semi-regularly to see if any of them require attention.
+#    These warnings usually happen due to factors outside of the control of the node operator.
+#     - Examples: Unexpected responses from a remote API or misleading networking errors.
+#  - "error": An unexpected error occurred during the regular operation of a well-maintained node.
+#    Node operators might need to take action to remedy this error. Check these regularly to see if any of them require attention.
+#     - Examples: Use of deprecated configuration options or incorrectly configured settings that cause a job to fail.
+#  - "crit": A critical error occurred. The node might be unable to function.
+#    Node operators should take immediate action to fix these errors.
+#     - Examples: The node could not boot because a network socket could not be opened or the database became inaccessible.
+#  - "panic": An exceptional error occurred that could not be handled.
+#    If the node is unresponsive, node operators should try to restart their nodes and notify the Chainlink team of a potential bug.
+#  - "fatal": The node encountered an unrecoverable problem and had to exit.
+#
+# - Default is 'info'
+Level = 'info'
+
+# JSONConsole
+# - JSONConsole enables JSON logging. Otherwise, the log is saved in a human-friendly console format.
+#
+# - Default is false
+#JSONConsole = false
+
+# UnixTS
+# - UnixTS enables legacy unix timestamps.
+# - Previous versions of Chainlink nodes wrote JSON logs with a unix timestamp.
+# - As of v1.1.0 and up, the default has changed to use ISO8601 timestamps for better readability.
+#
+# - Default is false
+#UnixTS = false
+
+
+#---------------------------#
+#          Log File         #
+#---------------------------#
+[Log.File]
+
+# Dir
+# - Dir sets the log directory. By default, Chainlink nodes write log data to $ROOT/log.jsonl.
+#
+# - Example: Dir = '/my/log/directory'
+
+# MaxSize
+# - MaxSize determines the log file's max size in megabytes before file rotation.
+# - Having this not set will disable logging to disk.
+# - If your disk doesn't have enough disk space, the logging will pause and the application will log errors until space is available again.
+#
+# - Values must have suffixes with a unit like: 5120mb (5,120 megabytes). If no unit suffix is provided, the value defaults to b (bytes). The list of valid unit suffixes are:
+#  - b (bytes)
+#  - kb (kilobytes)
+#  - mb (megabytes)
+#  - gb (gigabytes)
+#  - tb (terabytes)
+#
+# - Default is '5120mb'
+MaxSize = '5120mb'
+
+# MaxAgeDays
+# - MaxAgeDays determines the log file's max age in days before file rotation.
+# - Keeping this config with the default value will not remove log files based on age.
+#
+# - Default is 0
+#MaxAgeDays = 0
+
+# MaxBackups
+# - MaxBackups determines the maximum number of old log files to retain.
+# - Keeping this config with the default value retains all old log files.
+# - The MaxAgeDays variable can still cause them to get deleted.
+#
+# Default is 1
+#MaxBackups = 1
+
+
+#---------------------------#
+#         Web Server        #
+#---------------------------#
+[WebServer]
+
+# AllowOrigins
+# - AllowOrigins controls the URLs Chainlink nodes emit in the Allow-Origins header of its API responses.
+# - The setting can be a comma-separated list with no spaces. You might experience CORS issues if this is not set correctly.
+#
+# - You should set this to the external URL that you use to access the Chainlink UI.
+#
+# - You can set AllowOrigins = '*' to allow the UI to work from any URL, but it is recommended for security reasons to make it explicit instead.
+#
+# - Default is 'http://localhost:3000,http://localhost:6688'
+AllowOrigins = '*'
+
+# BridgeCacheTTL
+# - BridgeCacheTTL controls the cache TTL for all bridge tasks to use old values in newer observations in case of intermittent failure. It's disabled by default.
+#
+# - Default is '0s'
+#BridgeCacheTTL = '0s'
+
+# BridgeResponseURL
+# - BridgeResponseURL defines the URL for bridges to send a response to. This must be set when using async external adapters.
+#
+# - Usually this will be the same as the URL/IP and port you use to connect to the Chainlink UI.
+#
+# - Example: BridgeResponseURL = 'https://my-chainlink-node.example.com:6688'
+
+# HTTPWriteTimeout
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - HTTPWriteTimeout controls how long the Chainlink node's API server can hold a socket open for writing a response to an HTTP request.
+# - Sometimes, this must be increased for pprof.
+#
+# - Default is '10s'
+#HTTPWriteTimeout = '10s'
+
+# HTTPPort
+# - HTTPPort is the port used for the Chainlink Node API, CLI, and GUI.
+#
+# - Default is 6688
+#HTTPPort = 6688
+
+# SecureCookies
+# - SecureCookies requires the use of secure cookies for authentication.
+# - Set to false to enable standard HTTP requests along with TLSPort = 0.
+#
+# - Default is true
+#SecureCookies = true
+
+# SessionTimeout
+# - SessionTimeout determines the amount of idle time to elapse before session cookies expire. This signs out GUI users from their sessions.
+#
+# - Default is '15m'
+#SessionTimeout = '15m'
+
+# SessionReaperExpiration
+# - SessionReaperExpiration represents how long an API session lasts before expiring and requiring a new login.
+#
+# - Default is '240h'
+#SessionReaperExpiration = '240h'
+
+
+#---------------------------#
+#   Web Server Rate Limit   #
+#---------------------------#
+#[WebServer.RateLimit]
+
+# Authenticated
+# - Authenticated defines the threshold to which authenticated requests get limited.
+# - More than this many authenticated requests per AuthenticatedRateLimitPeriod will be rejected.
+#
+# Default is 1000
+#Authenticated = 1000
+
+# AuthenticatedPeriod
+# - AuthenticatedPeriod defines the period to which authenticated requests get limited.
+#
+# - Default is '1m'
+#AuthenticatedPeriod = '1m'
+
+# Unauthenticated
+# - Unauthenticated defines the threshold to which authenticated requests get limited.
+# - More than this many unauthenticated requests per UnAuthenticatedRateLimitPeriod will be rejected.
+#
+# - Default is 5
+#Unauthenticated = 5
+
+# UnauthenticatedPeriod
+# - UnauthenticatedPeriod defines the period to which unauthenticated requests get limited.
+#
+# - Default is '20s'
+#UnauthenticatedPeriod = '20s'
+
+
+#---------------------------#
+#       Web Server MFA      #
+#---------------------------#
+#[WebServer.MFA]
+
+# RPID
+# - RPID is the FQDN of where the Operator UI is served. When serving locally, the value should be localhost.
+#
+# - Example: RPID = 'localhost'
+
+# RPOrigin
+# - RPOrigin is the origin URL where WebAuthn requests initiate, including scheme and port.
+# - When serving locally, the value should be http://localhost:6688/.
+#
+# - Example: RPOrigin = 'http://localhost:6688/'
+
+
+#---------------------------#
+#       Web Server TLS      #
+#---------------------------#
+# - The TLS settings apply only if you want to enable TLS security on your Chainlink node.
+[WebServer.TLS]
+
+# CertPath
+# - CertPath is the location of the TLS certificate file.
+#
+# - Example: CertPath = '~/.cl/certs'
+CertPath = '/chainlink/tls/server.crt'
+
+# Host
+# - Host is the hostname configured for TLS to be used by the Chainlink node.
+# - This is useful if you configured a domain name specific for your Chainlink node.
+#
+# - Example: Host = 'tls-host'
+
+# KeyPath
+# - KeyPath is the location of the TLS private key file.
+#
+# - Example: KeyPath = '/home/$USER/.chainlink/tls/server.key'
+KeyPath = '/chainlink/tls/server.key'
+
+# HTTPSPort
+# - HTTPSPort is the port used for HTTPS connections. Set this to 0 to disable HTTPS.
+# - Disabling HTTPS also relieves Chainlink nodes of the requirement for a TLS certificate.
+#
+# - Default is 6689
+#HTTPSPort = 6689
+
+# ForceRedirect
+# - ForceRedirect forces TLS redirect for unencrypted connections.
+#
+# - Default is false
+#ForceRedirect = false
+
+#---------------------------#
+#        Job Pipeline       #
+#---------------------------#
+[JobPipeline]
+
+# ExternalInitiatorsEnabled
+# - ExternalInitiatorsEnabled enables the External Initiator feature.
+# - If disabled, webhook jobs can ONLY be initiated by a logged-in user.
+# - If enabled, webhook jobs can be initiated by a whitelisted external initiator.
+#
+# - Default is false
+#ExternalInitiatorsEnabled = false
+
+# MaxRunDuration
+# - MaxRunDuration is the maximum time allowed for a single job run.
+# - If it takes longer, it will exit early and be marked errored.
+# - If set to zero, disables the time limit completely.
+#
+# - Default is '10m'
+#MaxRunDuration = '10m'
+
+# MaxSuccessfulRuns
+# - MaxSuccessfulRuns caps the number of completed successful runs per pipeline spec in the database.
+# - You can set it to zero as a performance optimisation; this will avoid saving any successful run.
+#
+# - Note: this is not a hard cap, it can drift slightly larger than this but not by more than 5% or so.
+#
+# - Default is 10000
+#MaxSuccessfulRuns = 10000
+
+# ReaperInterval
+# - ReaperInterval controls how often the job pipeline reaper will run to delete completed jobs older than ReaperThreshold,
+#   in order to keep database size manageable.
+#
+# - Set to 0 to disable the periodic reaper.
+#
+# - Default is '1h'
+#ReaperInterval = '1h'
+
+# ReaperThreshold
+# - ReaperThreshold determines the age limit for job runs. Completed job runs older than this will be automatically purged from the database.
+#
+# - Default is '24h'
+#ReaperThreshold = '24h'
+
+# ResultWriteQueueDepth
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - ResultWriteQueueDepth controls how many writes will be buffered before subsequent writes are dropped,
+#   for jobs that write results asynchronously for performance reasons, such as OCR.
+#
+# - Default is 100
+#ResultWriteQueueDepth = 100
+
+
+#---------------------------#
+# Job Pipeline HTTP Request #
+#---------------------------#
+[JobPipeline.HTTPRequest]
+
+# DefaultTimeout
+# - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
+#
+# - Default is '15s'
+DefaultTimeout = '6s'
+
+# MaxSize
+# - MaxSize defines the maximum size for HTTP requests and responses made by http and bridge adapters.
+#
+# - Default is 32768
+#MaxSize = '32768'
+
+
+#---------------------------#
+#       Flux Monitor        #
+#---------------------------#
+#[FluxMonitor]
+
+# DefaultTransactionQueueDepth
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - DefaultTransactionQueueDepth controls the queue size for DropOldestStrategy in Flux Monitor. Set to 0 to use SendEvery strategy instead.
+#
+# - Default is 1
+#DefaultTransactionQueueDepth = 1
+
+# SimulateTransactions
+# - SimulateTransactions enables transaction simulation for Flux Monitor.
+#
+# - Default is false
+#SimulateTransactions = false
+
+
+#---------------------------#
+#           OCR2            #
+#---------------------------#
+[OCR2]
+
+# Enabled
+# - Enabled enables OCR2 jobs.
+#
+# - Default is false
+Enabled = true
+
+# ContractConfirmations
+# - ContractConfirmations is the number of block confirmations to wait for before enacting an on-chain configuration change.
+# - This value doesn't need to be very high (in particular, it does not need to protect against malicious re-orgs).
+# - Since configuration changes create some overhead, and mini-reorgs are fairly common, recommended values are between two and ten.
+#
+# - Malicious re-orgs are not any more of concern here than they are in blockchain applications in general:
+# - Since nodes check the contract for the latest config every ContractConfigTrackerPollInterval.Seconds(),
+#   they will come to a common view of the current config within any interval longer than that,
+#   as long as the latest setConfig transaction in the longest chain is stable.
+# - They will thus be able to continue reporting after the poll interval,
+#   unless an adversary is able to repeatedly re-org the transaction out during every poll interval,
+#   which would amount to the capability to censor any transaction.
+#
+# - Note that 1 confirmation implies that the transaction/event has been mined in one block.
+# - 0 confirmations would imply that the event would be recognised before it has even been mined,
+#   which is not currently supported.
+#   e.g. Current block height: 42 Changed in block height: 43 Contract config confirmations: 1 STILL PENDING
+#
+# - Current block height: 43 Changed in block height: 43 Contract config confirmations: 1 CONFIRMED
+#
+# - Default is 3
+#ContractConfirmations = 3
+
+# BlockchainTimeout
+# - BlockchainTimeout is the timeout for blockchain queries (mediated through ContractConfigTracker and ContractTransmitter).
+# - (This is necessary because an oracle's operations are serialized, so blocking forever on a chain interaction would break the oracle)
+#
+# - Default is '20s'
+#BlockchainTimeout = '20s'
+
+# ContractPollInterval
+# - ContractPollInterval is the polling interval at which ContractConfigTracker is queried for# updated on-chain configurations.
+# - Recommended values are between fifteen seconds and two minutes.
+#
+# - Default is '1m'
+#ContractPollInterval = '1m'
+
+# ContractSubscribeInterval
+# - ContractSubscribeInterval is the interval at which we try to establish a subscription on ContractConfigTracker if one doesn't exist.
+# - Recommended values are between two and five minutes.
+#
+# - Default is '2m'
+#ContractSubscribeInterval = '2m'
+
+# ContractTransmitterTransmitTimeout
+# - ContractTransmitterTransmitTimeout is the timeout for ContractTransmitter.Transmit calls.
+#
+# - Default is '10s'
+#ContractTransmitterTransmitTimeout = '10s'
+
+# DatabaseTimeout
+# - DatabaseTimeout is the timeout for database interactions.
+# - (This is necessary because an oracle's operations are serialized, so blocking forever on an observation would break the oracle)
+#
+# - Default is '10s'
+#DatabaseTimeout = '10s'
+
+# KeyBundleID
+# - KeyBundleID is a sha256 hexadecimal hash identifier.
+#
+# - Example: KeyBundleID = '7a5f66bbe6594259325bf2b4f5b1a9c900000000000000000000000000000000'
+#KeyBundleID = ''
+
+
+#---------------------------#
+#           OCR             #
+#---------------------------#
+# - This section applies only if you are running off-chain reporting jobs.
+#[OCR]
+
+# Enabled
+# - Enabled enables OCR jobs.
+#
+# - Default is false
+#Enabled = false
+
+# ObservationTimeout
+# - ObservationTimeout is the timeout for making observations using the DataSource.Observe method.
+# - (This is necessary because an oracle's operations are serialized, so blocking forever on an observation would break the oracle)
+#
+# - Default is '5s'
+#ObservationTimeout = '5s'
+
+# BlockchainTimeout
+# - BlockchainTimeout is the timeout for blockchain queries (mediated through ContractConfigTracker and ContractTransmitter).
+# - (This is necessary because an oracle's operations are serialized, so blocking forever on a chain interaction would break the oracle.)
+#
+# - Default is '20s'
+#BlockchainTimeout = '20s'
+
+# ContractPollInterval
+# - ContractPollInterval is the polling interval at which ContractConfigTracker is queried for updated on-chain configurations.
+# - Recommended values are between fifteen seconds and two minutes.
+#
+# - Default is '1m'
+#ContractPollInterval = '1m'
+
+# ContractSubscribeInterval
+# - ContractSubscribeInterval is the interval at which we try to establish a subscription on ContractConfigTracker if one doesn't exist.
+# - Recommended values are between two and five minutes.
+#
+# - Default is '2m'
+#ContractSubscribeInterval = '2m'
+
+# DefaultTransactionQueueDepth
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - DefaultTransactionQueueDepth controls the queue size for DropOldestStrategy in OCR. Set to 0 to use SendEvery strategy instead.
+#
+# - Default is 1
+#DefaultTransactionQueueDepth = 1
+
+# KeyBundleID
+# - KeyBundleID is the default key bundle ID to use for OCR jobs. If you have an OCR job that does not explicitly specify a key bundle ID, it will fall back to this value.
+#
+# - Example: KeyBundleID = 'acdd42797a8b921b2910497badc5000600000000000000000000000000000000'
+#KeyBundleID = ''
+
+# SimulateTransactions
+# - SimulateTransactions enables transaction simulation for OCR.
+#
+# - Default is false
+#SimulateTransactions = false
+
+# TransmitterAddress
+# - TransmitterAddress is the default sending address to use for OCR.
+# - If you have an OCR job that does not explicitly specify a transmitter address, it will fall back to this value.
+#
+# - Example: TransmitterAddress = '0xa0788FC17B1dEe36f057c42B6F373A34B014687e'
+#TransmitterAddress = ''
+
+
+#---------------------------#
+#           P2P             #
+#---------------------------#
+# - P2P supports multiple networking stack versions. You may configure [P2P.V1], [P2P.V2], or both to run simultaneously.
+# - If both are configured, then for each link with another peer, V2 networking will be preferred.
+# - If V2 does not work, the link will automatically fall back to V1.
+# - If V2 starts working again later, it will automatically be preferred again.
+# - This is useful for migrating networks without downtime.
+# - Note that the two networking stacks must not be configured to bind to the same IP/port.
+#
+# - All nodes in the OCR network should share the same networking stack.
+[P2P]
+
+# IncomingMessageBufferSize
+# - IncomingMessageBufferSize is the per-remote number of incoming messages to buffer.
+# - Any additional messages received on top of those already in the queue will be dropped.
+#
+# - Default is 10
+#IncomingMessageBufferSize = 10
+
+# OutgoingMessageBufferSize
+# - OutgoingMessageBufferSize is the per-remote number of outgoing messages to buffer.
+# - Any additional messages send on top of those already in the queue will displace the oldest.
+# - NOTE: OutgoingMessageBufferSize should be comfortably smaller than remote's IncomingMessageBufferSize
+#   to give the remote enough space to process them all in case we regained connection and now send a bunch at once
+#
+# - Default is 10
+#OutgoingMessageBufferSize = 10
+
+# PeerID
+# - PeerID is the default peer ID to use for OCR jobs. If unspecified, uses the first available peer ID.
+#
+# - Example: PeerID = '12D3KooWMoejJznyDuEk5aX6GvbjaG12UzeornPCBNzMRqdwrFJw'
+PeerID = ''
+
+# TraceLogging
+# - TraceLogging enables trace level logging.
+#
+# - Default is false
+TraceLogging = true
+
+
+#---------------------------#
+#         P2P v1            #
+#---------------------------#
+[P2P.V1]
+
+# Enabled
+# - Enabled enables P2P V1.
+#
+# Default is true
+Enabled = false
+
+# AnnounceIP
+# - AnnounceIP should be set as the externally reachable IP address of the Chainlink node.
+#
+# - Example: AnnounceIP = '1.2.3.4'
+#AnnounceIP = ''
+
+# AnnouncePort
+# - AnnouncePort should be set as the externally reachable port of the Chainlink node.
+#
+# - Example: AnnouncePort = 1337
+#AnnouncePort =
+
+# BootstrapCheckInterval
+# - BootstrapCheckInterval is the interval at which nodes check connections to bootstrap nodes and reconnect if any of them is lost.
+# - Setting this to a small value would allow newly joined bootstrap nodes to get more connectivity more quickly, which helps to make bootstrap process faster.
+# - The cost of this operation is relatively cheap. We set this to 1 minute during our test.
+#
+# - Default is '20s'
+#BootstrapCheckInterval = '20s'
+
+# DefaultBootstrapPeers
+# - DefaultBootstrapPeers is the default set of bootstrap peers.
+#
+# - Example: DefaultBootstrapPeers = ['/dns4/example.com/tcp/1337/p2p/$P2P_PEER_ID', '/ip4/1.2.3.4/tcp/9999/p2p/$P2P_PEER_ID']
+#DefaultBootstrapPeers = []
+
+# DHTAnnouncementCounterUserPrefix
+# - DHTAnnouncementCounterUserPrefix can be used to restore the node's ability to announce its IP/port on the P2P network after a database rollback.
+# - Make sure to only increase this value, and never decrease it.
+# - Don't use this variable unless you really know what you're doing, since you could semi-permanently exclude your node from the P2P network by misconfiguring it.
+#
+# - Default is 0
+#DHTAnnouncementCounterUserPrefix = 0
+
+# DHTLookupInterval
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - DHTLookupInterval is the interval between which we do the expensive peer lookup using DHT.
+#
+# - Every DHTLookupInterval failures to open a stream to a peer, we will attempt to lookup its IP from DHT
+#
+# - Default is 10
+#DHTLookupInterval = 10
+
+# ListenIP
+# - ListenIP is the default IP address to bind to.
+#
+# - Example: ListenIP = '0.0.0.0'
+#ListenIP = ''
+
+# ListenPort
+# - ListenPort is the port to listen on.
+# - If left blank, the node randomly selects a different port each time it boots.
+# - It is highly recommended to set this to a static value to avoid network instability.
+#
+# - Example: ListenPort = 1337
+#ListenPort =
+
+# NewStreamTimeout
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - NewStreamTimeout is the maximum length of time to wait to open a stream before we give up.
+# - We shouldn't hit this in practice since libp2p will give up fast if it can't get a connection, but it is here anyway as a failsafe.
+# - Set to 0 to disable any timeout on top of what libp2p gives us by default.
+#
+# - Default is '10s'
+#NewStreamTimeout = '10s'
+
+# PeerstoreWriteInterval
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - PeerstoreWriteInterval controls how often the peerstore for the OCR V1 networking stack is persisted to the database.
+#
+# - Default is '5m'
+#PeerstoreWriteInterval = '5m'
+
+
+#---------------------------#
+#         P2P v2            #
+#---------------------------#
+[P2P.V2]
+
+# Enabled
+# - Enabled enables P2P V2. Note: V1.Enabled is true by default, so it must be set false in order to run V2 only.
+#
+# - Default is false
+Enabled = true
+
+# AnnounceAddresses
+# - AnnounceAddresses is the addresses the peer will advertise on the network in host:port form as accepted by net.Dial.
+# - The addresses should be reachable by peers of interest.
+#
+# - Example: AnnounceAddresses = ['1.2.3.4:9999', '[a52d:0:a88:1274::abcd]:1337']
+AnnounceAddresses = ['']
+
+# DefaultBootstrappers
+# - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
+#
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
+DefaultBootstrappers = ['', '', '', '']
+
+# DeltaDial
+# - DeltaDial controls how far apart Dial attempts are
+#
+# - Default is '15s'
+#DeltaDial = '15s'
+
+# DeltaReconcile
+# - DeltaReconcile controls how often a Reconcile message is sent to every peer.
+#
+# - Default is '1m'
+#DeltaReconcile = '1m'
+
+# ListenAddresses
+# - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
+#   but the host and port must be fully specified and cannot be empty. You can specify 0.0.0.0 (IPv4) or :: (IPv6) to listen on all interfaces, but that is not recommended.
+#
+# - Example: ListenAddresses = ['1.2.3.4:9999', '[a52d:0:a88:1274::abcd]:1337']
+ListenAddresses = ['']
+
+
+#---------------------------#
+#         Keeper            #
+#---------------------------#
+#[Keeper]
+
+# DefaultTransactionQueueDepth
+# - DefaultTransactionQueueDepth controls the queue size for DropOldestStrategy in Keeper. Set to 0 to use SendEvery strategy instead.
+#
+# - Default is 1
+#DefaultTransactionQueueDepth = 1
+
+# GasPriceBufferPercent
+# - GasPriceBufferPercent specifies the percentage to add to the gas price used for checking whether to perform an upkeep.
+# - Only applies in legacy mode (EIP-1559 off).
+#
+# - Default is 20
+#GasPriceBufferPercent = 20
+
+# GasTipCapBufferPercent
+# - GasTipCapBufferPercent specifies the percentage to add to the gas price used for checking whether to perform an upkeep. Only applies in EIP-1559 mode.
+#
+# - Default is 20
+#GasTipCapBufferPercent = 20
+
+# BaseFeeBufferPercent
+# - BaseFeeBufferPercent specifies the percentage to add to the base fee used for checking whether to perform an upkeep.
+# - Applies only in EIP-1559 mode.
+#
+# - Default is 20
+#BaseFeeBufferPercent = 20
+
+# MaxGracePeriod
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - MaxGracePeriod is the maximum number of blocks that a keeper will wait after performing an upkeep before it resumes checking that upkeep
+#
+# - Default is 100
+#MaxGracePeriod = 100
+
+# TurnLookBack
+# - TurnLookBack is the number of blocks in the past to look back when getting a block for a turn.
+#
+# - Default is 1_000
+#TurnLookBack = 1_000
+
+
+#---------------------------#
+#     Keeper registry       #
+#---------------------------#
+#[Keeper.Registry]
+
+# CheckGasOverhead
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - CheckGasOverhead is the amount of extra gas to provide checkUpkeep() calls to account for the gas consumed by the keeper registry.
+#
+# - Default is 200_000
+#CheckGasOverhead = 200_000
+
+# PerformGasOverhead
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - PerformGasOverhead is the amount of extra gas to provide performUpkeep() calls to account for the gas consumed by the keeper registry
+#
+# - Default is 300_000
+#PerformGasOverhead = 300_000
+
+# SyncInterval
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - SyncInterval is the interval in which the RegistrySynchronizer performs a full sync of the keeper registry contract it is tracking.
+#
+# - Default is '30m'
+#SyncInterval = '30m'
+
+# MaxPerformDataSize
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - MaxPerformDataSize is the max size of perform data.
+#
+# - Default is 5_000
+#MaxPerformDataSize = 5_000
+
+# SyncUpkeepQueueSize
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - SyncUpkeepQueueSize represents the maximum number of upkeeps that can be synced in parallel.
+#
+# - Default is 10
+#SyncUpkeepQueueSize = 10
+
+
+#---------------------------#
+#        Auto pprof         #
+#---------------------------#
+# - The Chainlink node is equipped with an internal "nurse" service that can perform automatic pprof profiling when the certain resource thresholds are exceeded,
+#   such as memory and goroutine count.
+# - These profiles are saved to disk to facilitate fine-grained debugging of performance-related issues.
+# - In general, if you notice that your node has begun to accumulate profiles, forward them to the Chainlink team.
+#
+# - To learn more about these profiles, read the Profiling Go programs with pprof guide.
+#   https://jvns.ca/blog/2017/09/24/profiling-go-with-pprof/
+#[AutoPprof]
+
+# Enabled
+# - Enabled enables the automatic profiling service.
+#
+# - Default is false
+#Enabled = false
+
+# ProfileRoot
+# - ProfileRoot sets the location on disk where pprof profiles will be stored. Defaults to RootDir.
+#
+# - Example: ProfileRoot = 'prof/root'
+
+# PollInterval
+# - PollInterval is the interval at which the node's resources are checked.
+#
+# - Default is '10s'
+#PollInterval = '10s'
+
+# GatherDuration
+# - GatherDuration is the duration for which profiles are gathered when profiling starts.
+#
+# - Default is '10s'
+#GatherDuration = '10s'
+
+# GatherTraceDuration
+# - GatherTraceDuration is the duration for which traces are gathered when profiling is kicked off.
+# - This is separately configurable because traces are significantly larger than other types of profiles.
+#
+# - Defauls is '5s'
+#GatherTraceDuration = '5s'
+
+# MaxProfileSize
+# - MaxProfileSize is the maximum amount of disk space that profiles may consume before profiling is disabled.
+#
+# - Default is '100mb'
+#MaxProfileSize = '100mb'
+
+# CPUProfileRate
+# - CPUProfileRate sets the rate for CPU profiling.
+# - See https://pkg.go.dev/runtime#SetCPUProfileRate.
+#
+# - Default is 1
+#CPUProfileRate = 1
+
+# MemProfileRate
+# - MemProfileRate sets the rate for memory profiling.
+# - See https://pkg.go.dev/runtime#pkg-variables.
+#
+# - Default is 1
+#MemProfileRate = 1
+
+# BlockProfileRate
+# - BlockProfileRate sets the fraction of blocking events for goroutine profiling.
+# - See https://pkg.go.dev/runtime#SetBlockProfileRate.
+#
+# - Default is 1
+#BlockProfileRate = 1
+
+# MutexProfileFraction
+# - MutexProfileFraction sets the fraction of contention events for mutex profiling.
+# - See https://pkg.go.dev/runtime#SetMutexProfileFraction.
+#
+# - Default is 1
+#MutexProfileFraction = 1
+
+# MemThreshold
+# - MemThreshold sets the maximum amount of memory the node can actively consume before profiling begins.
+#
+# - Default is '4gb'
+#MemThreshold = '4gb'
+
+# GoroutineThreshold
+# - GoroutineThreshold is the maximum number of actively-running goroutines the node can spawn before profiling begins.
+#
+# - Default is 5000
+#GoroutineThreshold = 5000
+
+
+#---------------------------#
+#        Pyroscope          #
+#---------------------------#
+#[Pyroscope]
+
+# ServerAddress
+# - ServerAddress sets the address that will receive the profile logs. It enables the profiling service.
+#
+# - Example: ServerAddress = 'http://localhost:4040'
+#ServerAddress = ''
+
+# Environment
+# - Environment sets the target environment tag in which profiles will be added to.
+#
+# - Default is mainnet
+#Environment = 'mainnet'
+
+
+#---------------------------#
+#          Sentry           #
+#---------------------------#
+#[Sentry]
+
+# Debug
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - Debug enables printing of Sentry SDK debug messages.
+#
+# - Default is false
+#Debug = false
+
+# DSN
+# - DSN is the data source name where events will be sent. Sentry is completely disabled if this is left blank.
+#
+# - Example: DSN = 'sentry-dsn'
+#DSN = ''
+
+# Environment
+# - Environment overrides the Sentry environment to the given value. Otherwise autodetects between dev/prod.
+#
+# - Example: Environment = 'my-custom-env'
+#Environment = ''
+
+# Release
+# - Release overrides the Sentry release to the given value. Otherwise uses the compiled-in version number.
+#
+# - Example: Release = 'v1.2.3'
+#Release = ''
+
+
+#---------------------------#
+#            EVM            #
+#---------------------------#
+# - EVM defaults depend on ChainID:
+[[EVM]]
+
+# ChainID
+# - ChainID is the EVM chain ID.
+# - Mandatory.
+#
+# - Example: ChainID = '1'
+ChainID = '1'
+
+# Enabled
+# - Enabled enables this chain.
+#
+# - Default is true
+Enabled = true
+
+# BlockBackfillDepth
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - BlockBackfillDepth specifies the number of blocks before the current HEAD that the log broadcaster will try to re-consume logs from.
+#
+# - Default is 10
+#BlockBackfillDepth = 10
+
+# BlockBackfillSkip
+# - BlockBackfillSkip enables skipping of very long backfills.
+#
+# - Default is false
+#BlockBackfillSkip = false
+
+# ChainType
+# - ChainType is automatically detected from chain ID. Set this to force a certain chain type regardless of chain ID.
+#
+# - Example: ChainType = 'Optimism'
+#ChainType = ''
+
+# FinalityDepth
+# - FinalityDepth is the number of blocks after which an ethereum transaction is considered "final".
+# - Note that the default is automatically set based on chain ID so it should not be necessary to change this under normal operation.
+# - BlocksConsideredFinal determines how deeply we look back to ensure that transactions are confirmed onto the longest chain.
+# - There is not a large performance penalty to setting this relatively high (on the order of hundreds).
+# - It is practically limited by the number of heads we store in the database and should be less than this with a comfortable margin.
+# - If a transaction is mined in a block more than this many blocks ago, and is reorged out,
+#   we will NOT retransmit this transaction and undefined behaviour can occur including gaps in the nonce sequence that require manual intervention to fix.
+# - Therefore this number represents a number of blocks we consider large enough that no re-org this deep will ever feasibly happen.
+#
+# - Special cases: FinalityDepth=0 would imply that transactions can be final even before they were mined into a block.
+# - This is not supported. FinalityDepth=1 implies that transactions are final after we see them in one block.
+#
+# - Examples:
+#
+#  - Transaction sending: A transaction is sent at block height 42
+#   - FinalityDepth is set to 5 A re-org occurs at height 44 starting at block 41,
+#     transaction is marked for rebroadcast A re-org occurs at height 46 starting at block 41,
+#     transaction is marked for rebroadcast A re-org occurs at height 47 starting at block 41,
+#     transaction is NOT marked for rebroadcast
+#
+# - Default is 50
+#FinalityDepth = 50
+
+# FlagsContractAddress
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - FlagsContractAddress can optionally point to a Flags contract.
+# - If set, the node will lookup that contract for each job that supports flags contracts (currently OCR and FM jobs are supported).
+# - If the job's contractAddress is set as hibernating in the FlagsContractAddress address, it overrides the standard update parameters (such as heartbeat/threshold).
+#
+# - Example: FlagsContractAddress = '0xae4E781a6218A8031764928E88d457937A954fC3'
+#FlagsContractAddress = ''
+
+# LinkContractAddress
+# - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
+#
+# - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
+LinkContractAddress = '0x514910771AF9Ca656af840dff83E8264EcF986CA'
+
+# LogBackfillBatchSize
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - LogBackfillBatchSize sets the batch size for calling FilterLogs when we backfill missing logs.
+#
+# - Default is 100
+#LogBackfillBatchSize = 100
+
+# LogPollInterval
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - LogPollInterval works in conjunction with Feature.LogPoller. Controls how frequently the log poller polls for logs. Defaults to the block production rate.
+#
+# - Default is '15s'
+#LogPollInterval = '15s'
+
+# LogKeepBlocksDepth
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - LogKeepBlocksDepth works in conjunction with Feature.LogPoller. Controls how many blocks the poller will keep, must be greater than FinalityDepth+1.
+#
+# - Default is 100000
+#LogKeepBlocksDepth = 100000
+
+# MinContractPayment
+# - MinContractPayment is the minimum payment in LINK required to execute a direct request job. This can be overridden on a per-job basis.
+#
+# - Default is '10000000000000 juels'
+MinContractPayment = '0.1 link'
+
+# MinIncomingConfirmations
+# - MinIncomingConfirmations is the minimum required confirmations before a log event will be consumed.
+#
+# - Default is 3
+#MinIncomingConfirmations = 3
+
+# NonceAutoSync
+# - NonceAutoSync enables automatic nonce syncing on startup.
+# - Chainlink nodes will automatically try to sync its local nonce with the remote chain on startup and fast forward if necessary.
+# - This is almost always safe but can be disabled in exceptional cases by setting this value to false.
+#
+# - Default is true
+#NonceAutoSync = true
+
+# NoNewHeadsThreshold
+# - NoNewHeadsThreshold controls how long to wait after receiving no new heads before NodePool marks rpc endpoints as out-of-sync, and HeadTracker logs warnings.
+#
+# - Set to zero to disable out-of-sync checking.
+#
+# - Default is '3m'
+#NoNewHeadsThreshold = '3m'
+
+# OperatorFactoryAddress
+# - OperatorFactoryAddress is the address of the canonical operator forwarder contract on the given chain. Note that this is usually autodetected from chain ID.
+#
+# - Example: OperatorFactoryAddress = '0xa5B85635Be42F21f94F28034B7DA440EeFF0F418'
+#OperatorFactoryAddress = ''
+
+# RPCDefaultBatchSize
+# - RPCDefaultBatchSize is the default batch size for batched RPC calls.
+#
+# - Default is 100
+#RPCDefaultBatchSize = 100
+
+# RPCBlockQueryDelay
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - RPCBlockQueryDelay controls the number of blocks to trail behind head in the block history estimator and balance monitor.
+# - For example, if this is set to 3, and we receive block 10, block history estimator will fetch block 7.
+#
+# - CAUTION: You might be tempted to set this to 0 to use the latest possible block,
+#   but it is possible to receive a head BEFORE that block is actually available from the connected node via RPC,
+#   due to race conditions in the code of the remote ETH node.
+#   In this case you will get false "zero" blocks that are missing transactions.
+#
+# - Default is 1
+#RPCBlockQueryDelay = 1
+
+
+#---------------------------#
+#      EVM Transactions     #
+#---------------------------#
+#[EVM.Transactions]
+
+# ForwardersEnabled
+# - ForwardersEnabled enables or disables sending transactions through forwarder contracts.
+#
+# - Default is false
+#ForwardersEnabled = false
+
+# MaxInFlight
+# - MaxInFlight controls how many transactions are allowed to be "in-flight"
+# - i.e. broadcast but unconfirmed at any one time. You can consider this a form of transaction throttling.
+#
+# - The default is set conservatively at 16 because this is a pessimistic minimum that both geth and parity will hold without evicting local transactions.
+# - If your node is falling behind and you need higher throughput,
+#   you can increase this setting, but you MUST make sure that your ETH node is configured properly otherwise you can get nonce gapped and your node will get stuck.
+#
+# - 0 value disables the limit. Use with caution.
+#
+# - Default is 16
+#MaxInFlight = 16
+
+# MaxQueued
+# - MaxQueued is the maximum number of unbroadcast transactions per key that are allowed to be enqueued before jobs will start failing and rejecting send of any further transactions.
+# - This represents a sanity limit and generally indicates a problem with your ETH node (transactions are not getting mined).
+#
+# - Do NOT blindly increase this value thinking it will fix things if you start hitting this limit because transactions are not getting mined, you will instead only make things worse.
+#
+# - In deployments with very high burst rates, or on chains with large re-orgs, you may consider increasing this.
+#
+# - 0 value disables any limit on queue size. Use with caution.
+#
+# - Default is 250
+#MaxQueued = 250
+
+# ReaperInterval
+# - ReaperInterval controls how often the EthTx reaper will run.
+#
+# - Default is '1h'
+#ReaperInterval = '1h'
+
+# ReaperThreshold
+# - ReaperThreshold indicates how old an EthTx ought to be before it can be reaped.
+#
+# - Default is '168h'
+#ReaperThreshold = '168h'
+
+# ResendAfterThreshold
+# - ResendAfterThreshold controls how long to wait before re-broadcasting a transaction that has not yet been confirmed.
+#
+# - Default is '1m'
+#ResendAfterThreshold = '1m'
+
+
+#---------------------------#
+#     EVM Balance Monitor   #
+#---------------------------#
+#[EVM.BalanceMonitor]
+
+# Enabled
+# - Enabled balance monitoring for all keys.
+#
+# - Default is true
+#Enabled = true
+
+
+#---------------------------#
+#      EVM Gas Estimator    #
+#---------------------------#
+#[EVM.GasEstimator]
+
+# Mode
+# - Mode controls what type of gas estimator is used.
+#
+# - Options:
+#  - FixedPrice uses static configured values for gas price (can be set via API call).
+#  - BlockHistory dynamically adjusts default gas price based on heuristics from mined blocks.
+#  - Optimism2/L2Suggested is a special mode only for use with Optimism and Metis blockchains. This mode will use the gas price suggested by the rpc endpoint via eth_gasPrice.
+#  - Arbitrum is a special mode only for use with Arbitrum blockchains.
+#    It uses the suggested gas price (up to ETH_MAX_GAS_PRICE_WEI, with 1000 gwei default) as well as an estimated gas limit (up to ETH_GAS_LIMIT_MAX,
+#    with 1,000,000,000 default).
+#
+# - Chainlink nodes decide what gas price to use using an Estimator.
+# - It ships with several simple and battle-hardened built-in estimators that should work well for almost all use-cases.
+# - Note that estimators will change their behaviour slightly depending on if you are in EIP-1559 mode or not.
+#
+# - You can also use your own estimator for gas price by selecting the FixedPrice estimator and using the exposed API to set the price.
+#
+# - An important point to note is that the Chainlink node does not ship with built-in support for go-ethereum's estimateGas call.
+# - This is for several reasons, including security and reliability.
+# - We have found empirically that it is not generally safe to rely on the remote ETH node's idea of what gas price should be.
+#
+# - Default is 'BlockHistory'
+#Mode = 'BlockHistory'
+
+# PriceDefault
+# - PriceDefault is the default gas price to use when submitting transactions to the blockchain.
+# - Will be overridden by the built-in BlockHistoryEstimator if enabled, and might be increased if gas bumping is enabled.
+#
+# - (Only applies to legacy transactions)
+#
+# - Can be used with the chainlink setgasprice to be updated while the node is still running.
+#
+# - Defaults is '20 gwei'
+#PriceDefault = '20 gwei'
+
+# PriceMax
+# - PriceMax is the maximum gas price.
+# - Chainlink nodes will never pay more than this for a transaction.
+# - This applies to both legacy and EIP1559 transactions.
+# - Note that it is impossible to disable the maximum limit.
+# - Setting this value to zero will prevent paying anything for any transaction (which can be useful in some rare cases).
+# - Most chains by default have the maximum set to 2**256-1 Wei which is the maximum allowed gas price on EVM-compatible chains, and is so large it may as well be unlimited.
+#
+# - Default is '115792089237316195423570985008687907853269984665.640564039457584007913129639935'
+#PriceMax = '115792089237316195423570985008687907853269984665.640564039457584007913129639935 tether'
+
+# PriceMin
+# - PriceMin is the minimum gas price. Chainlink nodes will never pay less than this for a transaction.
+#
+# - (Only applies to legacy transactions)
+#
+# - It is possible to force the Chainlink node to use a fixed gas price by setting a combination of these, e.g.
+#  - EIP1559DynamicFees = false
+#  - PriceMax = 100
+#  - PriceMin = 100
+#  - PriceDefault = 100
+#  - BumpThreshold = 0
+#  - Mode = 'FixedPrice'
+#
+# - Default is '1 gwei'
+#PriceMin = '1 gwei'
+
+# LimitDefault
+# - LimitDefault sets default gas limit for outgoing transactions.
+# This should not need to be changed in most cases. Some job types, such as Keeper jobs, might set their own gas limit unrelated to this value.
+#
+# - Default is 500_000
+#LimitDefault = 500_000
+
+# LimitMax
+# - LimitMax sets a maximum for estimated gas limits. This currently only applies to Arbitrum GasEstimatorMode.
+#
+# - Default is 500_000
+#LimitMax = 500_000
+
+# LimitMultiplier
+# - LimitMultiplier is the factor by which a transaction's GasLimit is multiplied before transmission.
+# - So if the value is 1.1, and the GasLimit for a transaction is 10, 10% will be added before transmission.
+#
+# - This factor is always applied, so includes Optimism L2 transactions which uses a default gas limit of 1 and is also applied to LimitDefault.
+#
+# - Default is '1.0'
+#LimitMultiplier = '1.0'
+
+# LimitTransfer
+# - LimitTransfer is the gas limit used for an ordinary ETH transfer.
+#
+# - Default is 21_000
+#LimitTransfer = 21_000
+
+# BumpMin
+# - BumpMin is the minimum fixed amount of wei by which gas is bumped on each transaction attempt.
+#
+# - Default is '5 gwei'
+#BumpMin = '5 gwei'
+
+# BumpPercent
+# - BumpPercent is the percentage by which to bump gas on a transaction that has exceeded BumpThreshold. The larger of GasBumpPercent and GasBumpWei is taken for gas bumps.
+#
+# - Default is 20
+#BumpPercent = 20
+
+# BumpThreshold
+# - BumpThreshold is the number of blocks to wait for a transaction stuck in the mempool before automatically bumping the gas price. Set to 0 to disable gas bumping completely.
+#
+# - Default is 3
+#BumpThreshold = 3
+
+# BumpTxDepth
+# - BumpTxDepth is the number of transactions to gas bump starting from oldest. Set to 0 for no limit (i.e. bump all).
+#
+# - Default is 10
+#BumpTxDepth = 10
+
+# EIP1559DynamicFees
+# - EIP1559DynamicFees torces EIP-1559 transaction mode.
+# - Enabling EIP-1559 mode can help reduce gas costs on chains that support it.
+# - This is supported only on official Ethereum mainnet and testnets.
+# - It is not recommended to enable this setting on Polygon because the EIP-1559 fee market appears to be broken on all Polygon chains
+#   and EIP-1559 transactions are less likely to be included than legacy transactions.
+#
+# - Technical details
+# - Chainlink nodes include experimental support for submitting transactions using type 0x2 (EIP-1559) envelope.
+#
+# -EIP-1559 mode is enabled by default on the Ethereum Mainnet, but can be enabled on a per-chain basis or globally.
+#
+# - This might help to save gas on spikes. Chainlink nodes should react faster on the upleg and avoid overpaying on the downleg.
+# - It might also be possible to set EVM.GasEstimator.BlockHistory.BatchSize to a smaller value such as 12 or even 6
+#   because tip cap should be a more consistent indicator of inclusion time than total gas price.
+# - This would make Chainlink nodes more responsive and should reduce response time variance. Some experimentation is required to find optimum settings.
+#
+# - Set with caution, if you set this on a chain that does not actually support EIP-1559 your node will be broken.
+#
+# - In EIP-1559 mode, the total price for the transaction is the minimum of base fee + tip cap and fee cap. More information can be found on the official EIP.
+#
+# - Chainlink's implementation of EIP-1559 works as follows:
+#
+# - If you are using FixedPriceEstimator:
+#  - With gas bumping disabled, it will submit all transactions with feecap=PriceMax and tipcap=GasTipCapDefault
+#  - With gas bumping enabled, it will submit all transactions initially with feecap=GasFeeCapDefault and tipcap=GasTipCapDefault.
+#
+# - If you are using BlockHistoryEstimator (default for most chains):
+#  - With gas bumping disabled, it will submit all transactions with feecap=PriceMax and tipcap=<calculated using past blocks>
+#  - With gas bumping enabled (default for most chains) it will submit all transactions initially with
+#    feecap = ( current block base fee * (1.125 ^ N) + tipcap )
+#    where N is configurable by setting EVM.GasEstimator.BlockHistory.EIP1559FeeCapBufferBlocks but defaults to gas bump threshold+1
+#    and tipcap=<calculated using past blocks>
+#
+# - Bumping works as follows:
+#  - Increase tipcap by max(tipcap * (1 + GasBumpPercent), tipcap + GasBumpWei)
+#  - Increase feecap by max(feecap * (1 + GasBumpPercent), feecap + GasBumpWei)
+#
+# - A quick note on terminology - Chainlink nodes use the same terms used internally by go-ethereum source code to describe various prices.
+# - This is not the same as the externally used terms. For reference:
+#  - Base Fee Per Gas = BaseFeePerGas
+#  - Max Fee Per Gas = FeeCap
+#  - Max Priority Fee Per Gas = TipCap
+#
+# - In EIP-1559 mode, the following changes occur to how configuration works:
+#  - All new transactions will be sent as type 0x2 transactions specifying a TipCap and FeeCap.
+#     Be aware that existing pending legacy transactions will continue to be gas bumped in legacy mode.
+#  - BlockHistoryEstimator will apply its calculations (gas percentile etc) to the TipCap and this value will be used for new transactions (GasPrice will be ignored)
+#  - FixedPriceEstimator will use GasTipCapDefault instead of GasPriceDefault for the tip cap
+#  - FixedPriceEstimator will use GasFeeCapDefault instaed of GasPriceDefault for the fee cap
+#  - PriceMin is ignored for new transactions and GasTipCapMinimum is used instead (default 0)
+#  - PriceMax still represents that absolute upper limit that Chainlink will ever spend (total) on a single tx
+#  - Keeper.GasTipCapBufferPercent is ignored in EIP-1559 mode and Keeper.GasTipCapBufferPercent is used instead
+#
+# - Default is false
+#EIP1559DynamicFees = false
+
+# FeeCapDefault
+# - FeeCapDefault controls the fixed initial fee cap, if EIP1559 mode is enabled and FixedPrice gas estimator is used.
+#
+# - Default is '100 gwei'
+#FeeCapDefault = '100 gwei'
+
+# TipCapDefault
+# - TipCapDefault is the default gas tip to use when submitting transactions to the blockchain.
+# - Will be overridden by the built-in BlockHistoryEstimator if enabled, and might be increased if gas bumping is enabled.
+#
+# (Only applies to EIP-1559 transactions)
+#
+# - Default is '1 wei'
+#TipCapDefault = '1 wei'
+
+# TipCapMin
+# - TipCapMinimum is the minimum gas tip to use when submitting transactions to the blockchain.
+#
+# - Only applies to EIP-1559 transactions)
+#
+# - Default is '1 wei'
+#TipCapMin = '1 wei'
+
+
+#---------------------------#
+# EVM Gas Est Limit Job Type#
+#---------------------------#
+#[EVM.GasEstimator.LimitJobType]
+
+# OCR
+# - OCR overrides LimitDefault for OCR jobs.
+#
+# - Example: OCR = 100_000
+#OCR =
+
+# DR
+# - DR overrides LimitDefault for Direct Request jobs.
+#
+# - Example: DR = 100_000
+#DR =
+
+# VRF
+# - VRF overrides LimitDefault for VRF jobs.
+#
+# - Example: VRF = 100_000
+#VRF =
+
+# FM
+# - FM overrides LimitDefault for Flux Monitor jobs.
+#
+# - Example: FM = 100_000
+#FM =
+
+# Keeper
+# - Keeper overrides LimitDefault for Keeper jobs.
+#
+# - Example: Keeper = 100_000
+#Keeper =
+
+
+#---------------------------#
+#  EVM Gas Est Blockhistory #
+#---------------------------#
+# - These settings allow you to configure how your node calculates gas prices when using the block history estimator.
+# - In most cases, leaving these values at their defaults should give good results.
+#[EVM.GasEstimator.BlockHistory]
+
+# BatchSize
+# - BatchSize sets the maximum number of blocks to fetch in one batch in the block history estimator.
+# - If the BatchSize variable is set to 0, it defaults to EVM.RPCDefaultBatchSize.
+#
+# - Default is 4
+#BatchSize = 4
+
+# BlockHistorySize
+# - BlockHistorySize controls the number of past blocks to keep in memory to use as a basis for calculating a percentile gas price.
+#
+# - Default is 8
+#BlockHistorySize = 8
+
+# CheckInclusionBlocks
+# - CheckInclusionBlocks is the number of recent blocks to use to detect if there is a transaction propagation/connectivity issue, and to prevent bumping in these cases.
+# - This can help avoid the situation where RPC nodes are not propagating transactions for some non-price-related reason
+#   (e.g. go-ethereum bug, networking issue etc) and bumping gas would not help.
+#
+# - Set to zero to disable connectivity checking completely.
+#
+# - Default is 12
+#CheckInclusionBlocks = 12
+
+# CheckInclusionPercentile
+# - CheckInclusionPercentile controls the percentile that a transaction must have been higher than for all the blocks
+#   in the inclusion check window in order to register as a connectivity issue.
+#
+# - For example, if CheckInclusionBlocks=12 and CheckInclusionPercentile=90 then further bumping will be prevented for any
+#   transaction with any attempt that has a higher price than the 90th percentile for the most recent 12 blocks.
+#
+# - Default is 90
+#CheckInclusionPercentile = 90
+
+# EIP1559FeeCapBufferBlocks
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - EIP1559FeeCapBufferBlocks controls the buffer blocks to add to the current base fee when sending a transaction.
+# - By default, the gas bumping threshold + 1 block is used.
+#
+# - (Only applies to EIP-1559 transactions)
+#
+# - Default is 13
+#EIP1559FeeCapBufferBlocks = 13
+
+# TransactionPercentile
+# - TransactionPercentile specifies gas price to choose.
+# - E.g. if the block history contains four transactions with gas prices [100, 200, 300, 400] then picking 25 for this number will give a value of 200.
+# - If the calculated gas price is higher than GasPriceDefault then the higher price will be used as the base price for new transactions.
+#
+# - Must be in range 0-100.
+#
+# - Only has an effect if gas updater is enabled.
+#
+# - Think of this number as an indicator of how aggressive you want your node to price its transactions.
+#
+# - Setting this number higher will cause the Chainlink node to select higher gas prices.
+#
+# - Setting it lower will tend to set lower gas prices.
+#
+# - Default is 60
+#TransactionPercentile = 60
+
+#---------------------------#
+#      EVM Head Tracker     #
+#---------------------------#
+# - The head tracker continually listens for new heads from the chain.
+#
+# - In addition to these settings, it log warnings if EVM.NoNewHeadsThreshold is exceeded without any new blocks being emitted.
+#[EVM.HeadTracker]
+
+# HistoryDepth
+# - HistoryDepth tracks the top N block numbers to keep in the heads database table.
+# - Note that this can easily result in MORE than N records since in the case of re-orgs we keep multiple heads for a particular block height.
+# - This number should be at least as large as FinalityDepth. There may be a small performance penalty to setting this to something very large (10,000+)
+#
+# - Default is 100
+#HistoryDepth = 100
+
+# MaxBufferSize
+# - MaxBufferSize is the maximum number of heads that may be buffered in front of the head tracker before older heads start to be dropped.
+# - You may think of it as something like the maximum permittable "lag" for the head tracker before we start dropping heads to keep up.
+#
+# - Default is 3
+#MaxBufferSize = 3
+
+# SamplingInterval
+# - ADVANCED: Do not change this setting unless you know what you are doing.
+# - SamplingInterval means that head tracker callbacks will at maximum be made once in every window of this duration.
+# - This is a performance optimisation for fast chains. Set to 0 to disable sampling entirely.
+#
+# - Default is '1s'
+#SamplingInterval = '1s'
+
+
+#---------------------------#
+#      EVM Key Specific     #
+#---------------------------#
+#[[EVM.KeySpecific]]
+
+# Key
+# - Key is the account to apply these settings to
+#
+# - Example: Key = '0x2a3e23c6f242F5345320814aC8a1b4E58707D292'
+#Key = ''
+
+# PriceMax
+# - GasEstimator.PriceMax overrides the maximum gas price for this key. See EVM.GasEstimator.PriceMax.
+#
+# - Example: GasEstimator.PriceMax = '79 gwei'
+#GasEstimator.PriceMax = ''
+
+
+#---------------------------#
+#       EVM Node Pool       #
+#---------------------------#
+# - The node pool manages multiple RPC endpoints.
+#
+# - In addition to these settings, EVM.NoNewHeadsThreshold controls how long to wait after receiving no new heads before marking the node as out-of-sync.
+#[EVM.NodePool]
+
+# PollFailureThreshold
+# - PollFailureThreshold indicates how many consecutive polls must fail in order to mark a node as unreachable.
+#
+# - Set to zero to disable poll checking.
+#
+# - Default is 5
+#PollFailureThreshold = 5
+
+# PollInterval
+# - PollInterval controls how often to poll the node to check for liveness.
+#
+# - Set to zero to disable poll checking.
+#
+# - Default is '10s'
+#PollInterval = '10s'
+
+# SelectionMode
+# - SelectionMode controls node selection strategy:
+#  - HighestHead: use the node with the highest head number
+#  - RoundRobin: rotate through nodes, per-request
+#  - TotalDifficulty: use the node with the greatest total difficulty
+#
+# - Default is 'HighestHead'
+#SelectionMode = 'HighestHead'
+
+# SyncThreshold
+# - SyncThreshold controls how far a node may lag behind the best node before being marked out-of-sync.
+# - Depending on SelectionMode, this represents a difference in the number of blocks (HighestHead, RoundRobin), or total difficulty (TotalDifficulty).
+#
+# - Set to 0 to disable this check.
+#
+# - Default is 5
+#SyncThreshold = 5
+
+
+#---------------------------#
+#          EVM OCR          #
+#---------------------------#
+#[EVM.OCR]
+
+# ContractConfirmations
+# - ContractConfirmations sets OCR.ContractConfirmations for this EVM chain.
+#
+# - Default is 4
+#ContractConfirmations = 4
+
+# ContractTransmitterTransmitTimeout
+# - ContractTransmitterTransmitTimeout sets OCR.ContractTransmitterTransmitTimeout for this EVM chain.
+#
+# - Default is '10s'
+#ContractTransmitterTransmitTimeout = '10s'
+
+# DatabaseTimeout
+# - DatabaseTimeout sets OCR.DatabaseTimeout for this EVM chain.
+#
+# - Default is '10s'
+#DatabaseTimeout = '10s'
+
+
+#---------------------------#
+#         EVM Nodes         #
+#---------------------------#
+[[EVM.Nodes]]
+
+# Name
+# - Name is a unique (per-chain) identifier for this node.
+#
+# - Example: Name = 'Ethereum_Mainnet_00'
+Name = 'Ethereum_Mainnet_00'
+
+# WSURL
+# - WSURL is the WS(S) endpoint for this node. Required for primary nodes.
+#
+# - Example: WSURL = 'wss://web.socket/test'
+WSURL = 'wss://'
+
+# HTTPURL
+# - HTTPURL is the HTTP(S) endpoint for this node. Required for all nodes.
+#
+# - Example: HTTPURL = 'https://foo.web'
+HTTPURL = 'https://'
+
+# SendOnly
+# - SendOnly limits usage to sending transaction broadcasts only.
+# - With this enabled, only HTTPURL is required, and WSURL is not used.
+#
+# Default is false
+SendOnly = false
+
+
+#---------------------------#
+#    EVM OCR2 Automation    #
+#---------------------------#
+#[EVM.OCR2.Automation]
+
+# GasLimit
+# - GasLimit controls the gas limit for transmit transactions from ocr2automation job.
+#
+# - Default is 5300000
+#GasLimit = 5300000
+
+
+#---------------------------#
+#           Solana          #
+#---------------------------#
+#[[Solana]]
+
+# ChainID
+# - ChainID is the Solana chain ID. Must be one of:
+#  - mainnet
+#  - testnet
+#  - devnet
+#  - localnet
+#
+# - Mandatory.
+#
+# - Example: ChainID = 'mainnet'
+#ChainID = 'mainnet'
+
+# Enabled
+# - Enabled enables this chain.
+#
+# - Default is false
+#Enabled = false
+
+# BalancePollPeriod
+# - BalancePollPeriod is the rate to poll for SOL balance and update Prometheus metrics.
+#
+# - Default is '5s'
+#BalancePollPeriod = '5s'
+
+# ConfirmPollPeriod
+# - ConfirmPollPeriod is the rate to poll for signature confirmation.
+#
+# - Default is '500ms'
+#ConfirmPollPeriod = '500ms'
+
+# OCR2CachePollPeriod
+# - OCR2CachePollPeriod is the rate to poll for the OCR2 state cache.
+#
+# - Default is '1s'
+#OCR2CachePollPeriod = '1s'
+
+# OCR2CacheTTL
+# - OCR2CacheTTL is the stale OCR2 cache deadline.
+#
+# - Default is '1m'
+#OCR2CacheTTL = '1m'
+
+# TxTimeout
+# - TxTimeout is the timeout for sending txes to an RPC endpoint.
+#
+# - Default is '1m'
+#TxTimeout = '1m'
+
+# TxRetryTimeout
+# - TxRetryTimeout is the duration for tx manager to attempt rebroadcasting to RPC, before giving up.
+#
+# - Default is '10s'
+#TxRetryTimeout = '10s'
+
+# TxConfirmTimeout
+# - TxConfirmTimeout is the duration to wait when confirming a tx signature, before discarding as unconfirmed.
+#
+# - Default is '30s'
+#TxConfirmTimeout = '30s'
+
+# SkipPreflight
+# - SkipPreflight enables or disables preflight checks when sending txs.
+#
+# - Default is true
+#SkipPreflight = true
+
+# Commitment
+# - Commitment is the confirmation level for solana state and transactions.
+# - https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+#
+# - Default is 'confirmed'
+#Commitment = 'confirmed'
+
+# MaxRetries
+# - MaxRetries is the maximum number of times the RPC node will automatically rebroadcast a tx.
+# - The default is 0 for custom txm rebroadcasting method, set to -1 to use the RPC node's default retry strategy.
+#
+# - Default is 0
+#MaxRetries = 0
+
+
+#---------------------------#
+#        Solana Nodes       #
+#---------------------------#
+#[[Solana.Nodes]]
+
+# Name
+# - Name is a unique (per-chain) identifier for this node.
+#
+# - Example: Name = 'Solana-Primary-00'
+#Name = ''
+
+# URL
+# - URL is the HTTP(S) endpoint for this node.
+#
+# - Example: URL = 'http://solana.web'
+#URL = 'http://'
+
+
+#---------------------------#
+#          Starknet         #
+#---------------------------#
+#[[Starknet]]
+
+# ChainID
+# - ChainID is the Starknet chain ID.
+#
+# - Example: ChainID = 'foobar'
+
+# Enabled
+# - Enabled enables this chain.
+#
+# - Default is true
+#Enabled = true
+
+# OCR2CachePollPeriod
+# - OCR2CachePollPeriod is the rate to poll for the OCR2 state cache.
+#
+# - Default is '5s'
+#OCR2CachePollPeriod = '5s'
+
+# OCR2CacheTTL
+# - OCR2CacheTTL is the stale OCR2 cache deadline.
+#
+# - Default is '1m'
+#OCR2CacheTTL = '1m'
+
+# RequestTimeout
+# - RequestTimeout is the RPC client timeout.
+#
+# - Default is '10s'
+#RequestTimeout = '10s'
+
+# TxTimeout
+# - TxTimeout is the timeout for sending txes to an RPC endpoint.
+#
+# - Default is '1m'
+#TxTimeout = '1m'
+
+# TxSendFrequency
+# - TxSendFrequency is how often to broadcast batches of txes.
+#
+# Default is '5s'
+#TxSendFrequency = '5s'
+
+# TxMaxBatchSize
+# - TxMaxBatchSize limits the size of tx batches.
+#
+# - Default is 100
+#TxMaxBatchSize = 100
+
+
+#---------------------------#
+#       Starknet Nodes      #
+#---------------------------#
+#[[Starknet.Nodes]]
+
+# Name
+# - Name is a unique (per-chain) identifier for this node.
+#
+# - Example: Name = 'Starknet-Primary-00'
+#Name = 'Starknet-Primary-00'
+
+# URL
+# - URL is the base HTTP(S) endpoint for this node.
+#
+# - Example: URL = 'http://stark.node'
+#URL = 'http://'
