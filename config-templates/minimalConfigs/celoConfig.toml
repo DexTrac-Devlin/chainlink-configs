@@ -52,10 +52,8 @@ RootDir = '/chainlink'
 [EVM.GasEstimator]
  EIP1559DynamicFees = true
 
-
 [EVM.GasEstimator.BlockHistory]
  BlockHistorySize = 12
-
 
 [EVM.HeadTracker]
  HistoryDepth = 50
