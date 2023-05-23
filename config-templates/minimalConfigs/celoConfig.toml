@@ -1,0 +1,70 @@
+RootDir = '/chainlink'
+
+[Feature]
+ FeedsManager = true
+ UICSAKeys = true
+
+[Log]
+ Level = 'info'
+
+[Log.File]
+ MaxSize = '5120mb'
+
+[WebServer]
+ AllowOrigins = '*'
+
+[WebServer.TLS]
+ CertPath = '/chainlink/tls/server.crt'
+ KeyPath = '/chainlink/tls/server.key'
+
+[JobPipeline]
+
+[JobPipeline.HTTPRequest]
+ DefaultTimeout = '6s'
+
+[OCR]
+ Enabled = true
+ KeyBundleID = ''
+ TransmitterAddress = ''
+
+[P2P]
+ PeerID = ''
+
+[P2P.V1]
+ Enabled = false
+
+[P2P.V2]
+ Enabled = true
+ AnnounceAddresses = [':']
+ DefaultBootstrappers = ['','','']
+ ListenAddresses = ['0.0.0.0:']
+
+[[EVM]]
+ ChainID = '42220'
+ Enabled = true
+ FinalityDepth = 1
+ LinkContractAddress = '0x0000000000000000000000000000000000000000'
+ LogPollInterval = '5s'
+ MinContractPayment = '0.1 link'
+ MinIncomingConfirmations = 1
+ NoNewHeadsThreshold = '1m'
+
+[EVM.GasEstimator]
+ EIP1559DynamicFees = true
+
+
+[EVM.GasEstimator.BlockHistory]
+ BlockHistorySize = 12
+
+
+[EVM.HeadTracker]
+ HistoryDepth = 50
+
+[EVM.OCR]
+ ContractConfirmations = 1
+
+[[EVM.Nodes]]
+ Name = 'Celo_Mainnet_00'
+ WSURL = 'wss://'
+ HTTPURL = 'https://'
+ SendOnly = false
