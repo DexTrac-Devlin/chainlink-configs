@@ -263,6 +263,13 @@ ListenAddresses = ['']
 # - EVM defaults depend on ChainID:
 [[EVM]]
 
+# ChainID
+# - ChainID is the EVM chain ID.
+# - Mandatory.
+#
+# - Example: ChainID = '1'
+ChainID = '1666600000'
+
 # Enabled
 # - Enabled enables this chain.
 #

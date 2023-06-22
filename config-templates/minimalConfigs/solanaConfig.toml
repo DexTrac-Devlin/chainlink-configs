@@ -48,6 +48,7 @@ RootDir = '/chainlink'
  ListenAddresses = ['']
 
 [[EVM]]
+ ChainID = '1666600000'
  Enabled = false
 
 [[EVM.Nodes]]

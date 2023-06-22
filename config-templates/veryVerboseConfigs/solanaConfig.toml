@@ -53,6 +53,8 @@
 #   - DefaultBootstrappeers = ['$P2P_PEER_ID@$BOOTSTRAP_00_DNS:$PORT $P2P_PEER_ID@$BOOTSTRAP_01_DNS:$PORT']
 #
 # - [[EVM]]
+#  - ChainID = '1666600000'
+#   - You must specify a ChainID, even if it's Enabled = false
 #  - Enabled = false
 #
 # - [[EVM.Nodes]]
