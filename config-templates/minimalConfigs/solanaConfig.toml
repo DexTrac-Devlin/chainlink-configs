@@ -1,0 +1,59 @@
+RootDir = '/chainlink'
+
+[Feature]
+ FeedsManager = true
+ UICSAKeys = true
+
+[TelemetryIngress]
+ ServerPubKey = ''
+ URL = ''
+
+[Log]
+ Level = 'info'
+
+[Log.File]
+ MaxSize = '5120mb'
+
+[WebServer]
+ AllowOrigins = '*'
+
+[WebServer.TLS]
+ CertPath = '/chainlink/tls/server.crt'
+ KeyPath = '/chainlink/tls/server.key'
+
+[JobPipeline]
+
+[JobPipeline.HTTPRequest]
+ DefaultTimeout = '2s'
+
+[OCR2]
+ Enabled = true
+ KeyBundleID = ''
+
+[OCR]
+ Enabled = true
+ ObservationTimeout = '2s'
+ KeyBundleID = ''
+
+[P2P]
+ PeerID = ''
+
+[P2P.V1]
+ Enabled = false
+
+[P2P.V2]
+ Enabled = true
+ AnnounceAddresses = ['']
+ DefaultBootstrappers = ['', '', '', '']
+ ListenAddresses = ['']
+
+[[EVM]]
+ Enabled = false
+
+[[Solana]]
+ ChainID = 'mainnet'
+ Enabled = true
+
+[[Solana.Nodes]]
+ Name = 'Solana_Mainnet_00'
+ URL = 'https://'
