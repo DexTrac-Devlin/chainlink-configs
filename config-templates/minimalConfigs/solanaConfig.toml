@@ -50,6 +50,11 @@ RootDir = '/chainlink'
 [[EVM]]
  Enabled = false
 
+[[EVM.Nodes]]
+ Name = 'Solana_Mainnet_00_EVM_Node'
+ WSURL = 'wss://'
+ HTTPURL = 'https://'
+
 [[Solana]]
  ChainID = 'mainnet'
  Enabled = true

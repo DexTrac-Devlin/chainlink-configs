@@ -271,6 +271,37 @@ Enabled = false
 
 
 #---------------------------#
+#         EVM Nodes         #
+#---------------------------#
+[[EVM.Nodes]]
+
+# Name
+# - Name is a unique (per-chain) identifier for this node.
+#
+# - Example: Name = 'Ethereum_Mainnet_00'
+Name = 'Solana_Mainnet_00_EVM_Node'
+
+# WSURL
+# - WSURL is the WS(S) endpoint for this node. Required for primary nodes.
+#
+# - Example: WSURL = 'wss://web.socket/test'
+WSURL = 'wss://'
+
+# HTTPURL
+# - HTTPURL is the HTTP(S) endpoint for this node. Required for all nodes.
+#
+# - Example: HTTPURL = 'https://foo.web'
+HTTPURL = 'https://'
+
+# SendOnly
+# - SendOnly limits usage to sending transaction broadcasts only.
+# - With this enabled, only HTTPURL is required, and WSURL is not used.
+#
+# Default is false
+#SendOnly = false
+
+
+#---------------------------#
 #           Solana          #
 #---------------------------#
 [[Solana]]

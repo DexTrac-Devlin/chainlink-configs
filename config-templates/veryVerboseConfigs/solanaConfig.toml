@@ -55,13 +55,19 @@
 # - [[EVM]]
 #  - Enabled = false
 #
+# - [[EVM.Nodes]]
+#  - Name = 'Solana_Mainnet_00_EVM_Node'
+#  - URL = 'https://'
+#  - WSUTL = 'wss://'
+#    - While It's not very clear why these needs to be set, these EVM values must be set in order for the node to start
+#
 # - [[Solana]]
 #  - ChainID = 'mainnet'
 #  - Enabled = true
 #   - Set this to true to enable Solana
 #
 # - [[Solana.Nodes]]
-#  - Name = 'solana'
+#  - Name = 'Solana_Mainnet_00'
 #  - URL = 'https://'
 #   - Please note that the Chainlink node will not use websocket on Solana.  Do _not_ set the WSURL.
 
@@ -1897,25 +1903,25 @@ Enabled = false
 #---------------------------#
 #         EVM Nodes         #
 #---------------------------#
-#[[EVM.Nodes]]
+[[EVM.Nodes]]
 
 # Name
 # - Name is a unique (per-chain) identifier for this node.
 #
 # - Example: Name = 'Ethereum_Mainnet_00'
-#Name = ''
+Name = 'Solana_Mainnet_00_EVM_Node'
 
 # WSURL
 # - WSURL is the WS(S) endpoint for this node. Required for primary nodes.
 #
 # - Example: WSURL = 'wss://web.socket/test'
-#WSURL = 'wss://'
+WSURL = 'wss://'
 
 # HTTPURL
 # - HTTPURL is the HTTP(S) endpoint for this node. Required for all nodes.
 #
 # - Example: HTTPURL = 'https://foo.web'
-#HTTPURL = 'https://'
+HTTPURL = 'https://'
 
 # SendOnly
 # - SendOnly limits usage to sending transaction broadcasts only.
