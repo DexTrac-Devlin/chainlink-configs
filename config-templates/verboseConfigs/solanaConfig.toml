@@ -276,6 +276,17 @@ ChainID = '1666600000'
 # - Default is true
 Enabled = false
 
+#---------------------------#
+#          EVM OCR          #
+#---------------------------#
+[EVM.OCR]
+
+# ObservationGracePeriod
+# - ObservationGracePeriod sets OCR.ObservationGracePeriod for this EVM chain.
+#
+# - Default is '1s'
+ObservationGracePeriod = '550ms'
+
 
 #---------------------------#
 #         EVM Nodes         #

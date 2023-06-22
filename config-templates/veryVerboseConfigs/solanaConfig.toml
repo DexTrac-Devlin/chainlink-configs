@@ -57,6 +57,10 @@
 #   - You must specify a ChainID, even if it's Enabled = false
 #  - Enabled = false
 #
+# - [EVM.OCR]
+#  - ObservationGracePeriod = '550ms'
+#   - Set this very low to increase successful transmits
+#
 # - [[EVM.Nodes]]
 #  - Name = 'Solana_Mainnet_00_EVM_Node'
 #  - URL = 'https://'
@@ -1881,7 +1885,7 @@ Enabled = false
 #---------------------------#
 #          EVM OCR          #
 #---------------------------#
-#[EVM.OCR]
+[EVM.OCR]
 
 # ContractConfirmations
 # - ContractConfirmations sets OCR.ContractConfirmations for this EVM chain.
@@ -1901,6 +1905,11 @@ Enabled = false
 # - Default is '10s'
 #DatabaseTimeout = '10s'
 
+# ObservationGracePeriod
+# - ObservationGracePeriod sets OCR.ObservationGracePeriod for this EVM chain.
+#
+# - Default is '1s'
+ObservationGracePeriod = '550ms'
 
 #---------------------------#
 #         EVM Nodes         #
