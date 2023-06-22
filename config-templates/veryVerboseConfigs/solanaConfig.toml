@@ -1272,7 +1272,7 @@ ListenAddresses = ['']
 # - Mandatory.
 #
 # - Example: ChainID = '1'
-#ChainID = ''
+ChainID = '1666600000'
 
 # Enabled
 # - Enabled enables this chain.
