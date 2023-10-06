@@ -20,6 +20,12 @@ RootDir = '/chainlink'
 # - Default is set to false
 FeedsManager = true
 
+# UICSAKeys
+# - UICSAKeys enables CSA Keys in the UI.
+#
+# - Default is set to false
+UICSAKeys = true
+
 
 #---------------------------#
 #      Telemetry Ingress    #

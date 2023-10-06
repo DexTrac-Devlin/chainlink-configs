@@ -2,6 +2,7 @@ RootDir = '/chainlink'
 
 [Feature]
  FeedsManager = true
+ UICSAKeys = true
 
 [TelemetryIngress]
  UniConn = false

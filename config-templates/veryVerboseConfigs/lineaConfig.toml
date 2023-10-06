@@ -105,7 +105,7 @@ FeedsManager = true
 # - UICSAKeys enables CSA Keys in the UI.
 #
 # - Default is set to false
-#UICSAKeys = false
+UICSAKeys = true
 
 
 #---------------------------#
