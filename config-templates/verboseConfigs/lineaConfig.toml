@@ -405,24 +405,6 @@ HistoryDepth = 350
 
 
 #---------------------------#
-#          EVM OCR          #
-#---------------------------#
-[EVM.OCR]
-
-# ContractTransmitterTransmitTimeout
-# - ContractTransmitterTransmitTimeout sets OCR.ContractTransmitterTransmitTimeout for this EVM chain.
-#
-# - Default is '10s'
-ContractTransmitterTransmitTimeout = '1s'
-
-# DatabaseTimeout
-# - DatabaseTimeout sets OCR.DatabaseTimeout for this EVM chain.
-#
-# - Default is '10s'
-DatabaseTimeout = '1s'
-
-
-#---------------------------#
 #         EVM Nodes         #
 #---------------------------#
 [[EVM.Nodes]]

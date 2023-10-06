@@ -66,10 +66,6 @@ RootDir = '/chainlink'
 [EVM.HeadTracker]
  HistoryDepth = 350
 
-[EVM.OCR]
- ContractTransmitterTransmitTimeout = '1s'
- DatabaseTimeout = '1s'
-
 [[EVM.Nodes]]
  Name = 'Linea_Mainnet_00'
  WSURL = 'wss://'
