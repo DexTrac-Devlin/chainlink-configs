@@ -1,0 +1,76 @@
+RootDir = '/chainlink'
+
+[Feature]
+ FeedsManager = true
+
+[TelemetryIngress]
+ UniConn = false
+ ServerPubKey = ''
+ URL = ''
+
+[Log]
+ Level = 'info'
+
+[Log.File]
+ MaxSize = '5120mb'
+
+[WebServer]
+ AllowOrigins = '*'
+ BridgeCacheTTL = '60s'
+
+[WebServer.TLS]
+ CertPath = '/chainlink/tls/server.crt'
+ KeyPath = '/chainlink/tls/server.key'
+
+[JobPipeline]
+
+[JobPipeline.HTTPRequest]
+ DefaultTimeout = '10s'
+
+[OCR]
+ Enabled = true
+ KeyBundleID = ''
+ TransmitterAddress = ''
+
+[P2P]
+ PeerID = ''
+
+[P2P.V1]
+ Enabled = false
+
+[P2P.V2]
+ Enabled = true
+ AnnounceAddresses = ['1.2.3.4:9999']
+ DefaultBootstrappers = ['', '', '', '']
+ ListenAddresses = ['0.0.0.0:9999']
+
+[[EVM]]
+ ChainID = '59144'
+ Enabled = true
+ FinalityDepth = 300
+ LinkContractAddress = '0x0000000000000000000000000000000000000000'
+ NoNewHeadsThreshold = '0'
+
+[EVM.Transactions]
+ ResendAfterThreshold = '3m'
+
+[EVM.GasEstimator]
+ Mode = 'BlockHistory'
+ PriceMin = '400 mwei'
+ BumpPercent = 40
+
+[EVM.GasEstimator.BlockHistory]
+ BlockHistorySize = 200
+
+[EVM.HeadTracker]
+ HistoryDepth = 350
+
+[EVM.OCR]
+ ContractTransmitterTransmitTimeout = '1s'
+ DatabaseTimeout = '1s'
+
+[[EVM.Nodes]]
+ Name = 'Linea_Mainnet_00'
+ WSURL = 'wss://'
+ HTTPURL = 'https://'
+ SendOnly = false

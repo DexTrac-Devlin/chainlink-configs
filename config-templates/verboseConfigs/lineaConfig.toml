@@ -1,0 +1,447 @@
+#---------------------------#
+#          Global           #
+#---------------------------#
+# RootDir
+# - RootDir is the Chainlink node's root directory.
+# - This is the default directory for logging, database backups, cookies, and other misc Chainlink node files.
+# - Chainlink nodes will always ensure this directory has 700 permissions because it might contain sensitive data.
+#
+# - Default is set to '/.chainlink'
+RootDir = '/chainlink'
+
+
+#---------------------------#
+#          Feature          #
+#---------------------------#
+[Feature]
+# FeedsManager
+# - FeedsManager enables the experimental feeds manager service.
+#
+# - Default is set to false
+FeedsManager = true
+
+
+#---------------------------#
+#      Telemetry Ingress    #
+#---------------------------#
+[TelemetryIngress]
+
+# UniConn
+# - UniConn toggles which ws connection style is used.
+#
+# - Default is true
+UniConn = false
+
+# ServerPubKey
+# - ServerPubKey is the public key of the telemetry server.
+#
+# - Example: ServerPubKey = 'test-pub-key'
+ServerPubKey = ''
+
+# URL
+# - URL is where to send telemetry.
+#
+# - Example: URL = 'https://prom.test'
+URL = ''
+
+
+#---------------------------#
+#            Log            #
+#---------------------------#
+[Log]
+
+# Level
+# - Level determines both what is printed on the screen and what is written to the log file.
+#
+# - The available levels are:
+#  - "debug": Useful for forensic debugging of issues.
+#  - "info": High-level informational messages. (default)
+#  - "warn": A mild error occurred that might require non-urgent action.
+#    Check these warnings semi-regularly to see if any of them require attention.
+#    These warnings usually happen due to factors outside of the control of the node operator.
+#     - Examples: Unexpected responses from a remote API or misleading networking errors.
+#  - "error": An unexpected error occurred during the regular operation of a well-maintained node.
+#    Node operators might need to take action to remedy this error. Check these regularly to see if any of them require attention.
+#     - Examples: Use of deprecated configuration options or incorrectly configured settings that cause a job to fail.
+#  - "crit": A critical error occurred. The node might be unable to function.
+#    Node operators should take immediate action to fix these errors.
+#     - Examples: The node could not boot because a network socket could not be opened or the database became inaccessible.
+#  - "panic": An exceptional error occurred that could not be handled.
+#    If the node is unresponsive, node operators should try to restart their nodes and notify the Chainlink team of a potential bug.
+#  - "fatal": The node encountered an unrecoverable problem and had to exit.
+#
+# - Default is 'info'
+Level = 'info'
+
+
+#---------------------------#
+#          Log File         #
+#---------------------------#
+[Log.File]
+
+# MaxSize
+# - MaxSize determines the log file's max size in megabytes before file rotation.
+# - Having this not set will disable logging to disk.
+# - If your disk doesn't have enough disk space, the logging will pause and the application will log errors until space is available again.
+#
+# - Values must have suffixes with a unit like: 5120mb (5,120 megabytes). If no unit suffix is provided, the value defaults to b (bytes). The list of valid unit suffixes are:
+#  - b (bytes)
+#  - kb (kilobytes)
+#  - mb (megabytes)
+#  - gb (gigabytes)
+#  - tb (terabytes)
+#
+# - Default is '5120mb'
+MaxSize = '5120mb'
+
+
+#---------------------------#
+#         Web Server        #
+#---------------------------#
+[WebServer]
+
+# AllowOrigins
+# - AllowOrigins controls the URLs Chainlink nodes emit in the Allow-Origins header of its API responses.
+# - The setting can be a comma-separated list with no spaces. You might experience CORS issues if this is not set correctly.
+#
+# - You should set this to the external URL that you use to access the Chainlink UI.
+#
+# - You can set AllowOrigins = '*' to allow the UI to work from any URL, but it is recommended for security reasons to make it explicit instead.
+#
+# - Default is 'http://localhost:3000,http://localhost:6688'
+AllowOrigins = '*'
+
+# BridgeCacheTTL
+# - BridgeCacheTTL controls the cache TTL for all bridge tasks to use old values in newer observations in case of intermittent failure. It's disabled by default.
+#
+# - Default is '0s'
+BridgeCacheTTL = '60s'
+
+
+#---------------------------#
+#       Web Server TLS      #
+#---------------------------#
+# - The TLS settings apply only if you want to enable TLS security on your Chainlink node.
+[WebServer.TLS]
+
+# CertPath
+# - CertPath is the location of the TLS certificate file.
+#
+# - Example: CertPath = '~/.cl/certs'
+CertPath = '/chainlink/tls/server.crt'
+
+# KeyPath
+# - KeyPath is the location of the TLS private key file.
+#
+# - Example: KeyPath = '/home/$USER/.chainlink/tls/server.key'
+KeyPath = '/chainlink/tls/server.key'
+
+
+#---------------------------#
+#        Job Pipeline       #
+#---------------------------#
+[JobPipeline]
+
+
+#---------------------------#
+# Job Pipeline HTTP Request #
+#---------------------------#
+[JobPipeline.HTTPRequest]
+
+# DefaultTimeout
+# - DefaultTimeout defines the default timeout for HTTP requests made by http and bridge adapters.
+#
+# - Default is '15s'
+DefaultTimeout = '10s'
+
+
+#---------------------------#
+#           OCR             #
+#---------------------------#
+# - This section applies only if you are running off-chain reporting jobs.
+[OCR]
+
+# Enabled
+# - Enabled enables OCR jobs.
+#
+# - Default is false
+Enabled = true
+
+# KeyBundleID
+# - KeyBundleID is the default key bundle ID to use for OCR jobs. If you have an OCR job that does not explicitly specify a key bundle ID, it will fall back to this value.
+#
+# - Example: KeyBundleID = 'acdd42797a8b921b2910497badc5000600000000000000000000000000000000'
+KeyBundleID = ''
+
+# TransmitterAddress
+# - TransmitterAddress is the default sending address to use for OCR.
+# - If you have an OCR job that does not explicitly specify a transmitter address, it will fall back to this value.
+#
+# - Example: TransmitterAddress = '0xa0788FC17B1dEe36f057c42B6F373A34B014687e'
+TransmitterAddress = ''
+
+
+#---------------------------#
+#           P2P             #
+#---------------------------#
+# - P2P supports multiple networking stack versions. You may configure [P2P.V1], [P2P.V2], or both to run simultaneously.
+# - If both are configured, then for each link with another peer, V2 networking will be preferred.
+# - If V2 does not work, the link will automatically fall back to V1.
+# - If V2 starts working again later, it will automatically be preferred again.
+# - This is useful for migrating networks without downtime.
+# - Note that the two networking stacks must not be configured to bind to the same IP/port.
+#
+# - All nodes in the OCR network should share the same networking stack.
+[P2P]
+
+# PeerID
+# - PeerID is the default peer ID to use for OCR jobs. If unspecified, uses the first available peer ID.
+#
+# - Example: PeerID = '12D3KooWMoejJznyDuEk5aX6GvbjaG12UzeornPCBNzMRqdwrFJw'
+PeerID = ''
+
+
+#---------------------------#
+#         P2P v1            #
+#---------------------------#
+[P2P.V1]
+
+# Enabled
+# - Enabled enables P2P V1.
+#
+# Default is true
+Enabled = false
+
+
+#---------------------------#
+#         P2P v2            #
+#---------------------------#
+[P2P.V2]
+
+# Enabled
+# - Enabled enables P2P V2. Note: V1.Enabled is true by default, so it must be set false in order to run V2 only.
+#
+# - Default is false
+Enabled = true
+
+# AnnounceAddresses
+# - AnnounceAddresses is the addresses the peer will advertise on the network in host:port form as accepted by net.Dial.
+# - The addresses should be reachable by peers of interest.
+#
+# - Example: AnnounceAddresses = ['1.2.3.4:9999', '[a52d:0:a88:1274::abcd]:1337']
+AnnounceAddresses = ['1.2.3.4:9999']
+
+# DefaultBootstrappers
+# - DefaultBootstrappers is the default bootstrapper peers for libocr's v2 networking stack.
+#
+# - Example: DefaultBootstrappers = ['$P2P_PEER_ID@1.2.3.4:9999', '$P2P_PEER_ID@example.com:1234']
+DefaultBootstrappers = ['', '', '', '']
+
+# ListenAddresses
+# - ListenAddresses is the addresses the peer will listen to on the network in host:port form as accepted by net.Listen(),
+#   but the host and port must be fully specified and cannot be empty. You can specify 0.0.0.0 (IPv4) or :: (IPv6) to listen on all interfaces, but that is not recommended.
+#
+# - Example: ListenAddresses = ['1.2.3.4:9999', '[a52d:0:a88:1274::abcd]:1337']
+ListenAddresses = ['0.0.0.0:9999']
+
+
+#---------------------------#
+#            EVM            #
+#---------------------------#
+# - EVM defaults depend on ChainID:
+[[EVM]]
+
+# ChainID
+# - ChainID is the EVM chain ID.
+# - Mandatory.
+#
+# - Example: ChainID = '1'
+ChainID = '59144'
+
+# Enabled
+# - Enabled enables this chain.
+#
+# - Default is true
+Enabled = true
+
+# FinalityDepth
+# - FinalityDepth is the number of blocks after which an ethereum transaction is considered "final".
+# - Note that the default is automatically set based on chain ID so it should not be necessary to change this under normal operation.
+# - BlocksConsideredFinal determines how deeply we look back to ensure that transactions are confirmed onto the longest chain.
+# - There is not a large performance penalty to setting this relatively high (on the order of hundreds).
+# - It is practically limited by the number of heads we store in the database and should be less than this with a comfortable margin.
+# - If a transaction is mined in a block more than this many blocks ago, and is reorged out,
+#   we will NOT retransmit this transaction and undefined behaviour can occur including gaps in the nonce sequence that require manual intervention to fix.
+# - Therefore this number represents a number of blocks we consider large enough that no re-org this deep will ever feasibly happen.
+#
+# - Special cases: FinalityDepth=0 would imply that transactions can be final even before they were mined into a block.
+# - This is not supported. FinalityDepth=1 implies that transactions are final after we see them in one block.
+#
+# - Examples:
+#
+#  - Transaction sending: A transaction is sent at block height 42
+#   - FinalityDepth is set to 5 A re-org occurs at height 44 starting at block 41,
+#     transaction is marked for rebroadcast A re-org occurs at height 46 starting at block 41,
+#     transaction is marked for rebroadcast A re-org occurs at height 47 starting at block 41,
+#     transaction is NOT marked for rebroadcast
+#
+# - Default is 50
+FinalityDepth = 300
+
+# LinkContractAddress
+# - LinkContractAddress is the canonical ERC-677 LINK token contract address on the given chain. Note that this is usually autodetected from chain ID.
+#
+# - Example: LinkContractAddress = '0x538aAaB4ea120b2bC2fe5D296852D948F07D849e'
+LinkContractAddress = '0x0000000000000000000000000000000000000000'
+
+# NoNewHeadsThreshold
+# - NoNewHeadsThreshold controls how long to wait after receiving no new heads before NodePool marks rpc endpoints as out-of-sync, and HeadTracker logs warnings.
+#
+# - Set to zero to disable out-of-sync checking.
+#
+# - Default is '3m'
+NoNewHeadsThreshold = '0'
+
+
+#---------------------------#
+#      EVM Transactions     #
+#---------------------------#
+[EVM.Transactions]
+
+# ResendAfterThreshold
+# - ResendAfterThreshold controls how long to wait before re-broadcasting a transaction that has not yet been confirmed.
+#
+# - Default is '1m'
+ResendAfterThreshold = '3m'
+
+
+#---------------------------#
+#      EVM Gas Estimator    #
+#---------------------------#
+[EVM.GasEstimator]
+
+# Mode
+# - Mode controls what type of gas estimator is used.
+#
+# - Options:
+#  - FixedPrice uses static configured values for gas price (can be set via API call).
+#  - BlockHistory dynamically adjusts default gas price based on heuristics from mined blocks.
+#  - Optimism2/L2Suggested is a special mode only for use with Optimism and Metis blockchains. This mode will use the gas price suggested by the rpc endpoint via eth_gasPrice.
+#  - Arbitrum is a special mode only for use with Arbitrum blockchains.
+#    It uses the suggested gas price (up to ETH_MAX_GAS_PRICE_WEI, with 1000 gwei default) as well as an estimated gas limit (up to ETH_GAS_LIMIT_MAX,
+#    with 1,000,000,000 default).
+#
+# - Chainlink nodes decide what gas price to use using an Estimator.
+# - It ships with several simple and battle-hardened built-in estimators that should work well for almost all use-cases.
+# - Note that estimators will change their behaviour slightly depending on if you are in EIP-1559 mode or not.
+#
+# - You can also use your own estimator for gas price by selecting the FixedPrice estimator and using the exposed API to set the price.
+#
+# - An important point to note is that the Chainlink node does not ship with built-in support for go-ethereum's estimateGas call.
+# - This is for several reasons, including security and reliability.
+# - We have found empirically that it is not generally safe to rely on the remote ETH node's idea of what gas price should be.
+#
+# - Default is 'BlockHistory'
+Mode = 'BlockHistory'
+
+# PriceMin
+# - PriceMin is the minimum gas price. Chainlink nodes will never pay less than this for a transaction.
+#
+# - (Only applies to legacy transactions)
+#
+# - It is possible to force the Chainlink node to use a fixed gas price by setting a combination of these, e.g.
+#  - EIP1559DynamicFees = false
+#  - PriceMax = 100
+#  - PriceMin = 100
+#  - PriceDefault = 100
+#  - BumpThreshold = 0
+#  - Mode = 'FixedPrice'
+#
+# - Default is '1 gwei'
+PriceMin = '400 mwei'
+
+# BumpPercent
+# - BumpPercent is the percentage by which to bump gas on a transaction that has exceeded BumpThreshold. The larger of GasBumpPercent and GasBumpWei is taken for gas bumps.
+#
+# - Default is 20
+BumpPercent = 40
+
+
+#---------------------------#
+#  EVM Gas Est Blockhistory #
+#---------------------------#
+# - These settings allow you to configure how your node calculates gas prices when using the block history estimator.
+# - In most cases, leaving these values at their defaults should give good results.
+[EVM.GasEstimator.BlockHistory]
+
+# BlockHistorySize
+# - BlockHistorySize controls the number of past blocks to keep in memory to use as a basis for calculating a percentile gas price.
+#
+# - Default is 8
+BlockHistorySize = 200
+
+
+#---------------------------#
+#      EVM Head Tracker     #
+#---------------------------#
+# - The head tracker continually listens for new heads from the chain.
+#
+# - In addition to these settings, it log warnings if EVM.NoNewHeadsThreshold is exceeded without any new blocks being emitted.
+[EVM.HeadTracker]
+
+# HistoryDepth
+# - HistoryDepth tracks the top N block numbers to keep in the heads database table.
+# - Note that this can easily result in MORE than N records since in the case of re-orgs we keep multiple heads for a particular block height.
+# - This number should be at least as large as FinalityDepth. There may be a small performance penalty to setting this to something very large (10,000+)
+#
+# - Default is 100
+HistoryDepth = 350
+
+
+#---------------------------#
+#          EVM OCR          #
+#---------------------------#
+[EVM.OCR]
+
+# ContractTransmitterTransmitTimeout
+# - ContractTransmitterTransmitTimeout sets OCR.ContractTransmitterTransmitTimeout for this EVM chain.
+#
+# - Default is '10s'
+ContractTransmitterTransmitTimeout = '1s'
+
+# DatabaseTimeout
+# - DatabaseTimeout sets OCR.DatabaseTimeout for this EVM chain.
+#
+# - Default is '10s'
+DatabaseTimeout = '1s'
+
+
+#---------------------------#
+#         EVM Nodes         #
+#---------------------------#
+[[EVM.Nodes]]
+
+# Name
+# - Name is a unique (per-chain) identifier for this node.
+#
+# - Example: Name = 'Ethereum_Mainnet_00'
+Name = 'Linea_Mainnet_00'
+
+# WSURL
+# - WSURL is the WS(S) endpoint for this node. Required for primary nodes.
+#
+# - Example: WSURL = 'wss://web.socket/test'
+WSURL = 'wss://'
+
+# HTTPURL
+# - HTTPURL is the HTTP(S) endpoint for this node. Required for all nodes.
+#
+# - Example: HTTPURL = 'https://foo.web'
+HTTPURL = 'https://'
+
+# SendOnly
+# - SendOnly limits usage to sending transaction broadcasts only.
+# - With this enabled, only HTTPURL is required, and WSURL is not used.
+#
+# Default is false
+SendOnly = false
