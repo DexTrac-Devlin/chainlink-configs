@@ -1,0 +1,79 @@
+RootDir = '/chainlink'
+
+[Feature]
+ FeedsManager = true
+ UICSAKeys = true
+
+[TelemetryIngress]
+ UniConn = false
+ ServerPubKey = ''
+ URL = ''
+
+[Log]
+ Level = 'warn'
+ JSONConsole = false
+ UnixTS = false
+
+[Log.File]
+ MaxSize = '5120b'
+ MaxAgeDays = 0
+ MaxBackups = 1
+
+[WebServer]
+ AllowOrigins = '*'
+ BridgeCacheTTL = '60s'
+
+[WebServer.TLS]
+ CertPath = '/chainlink/tls/server.crt'
+ KeyPath = '/chainlink/tls/server.key'
+
+[JobPipeline]
+
+[JobPipeline.HTTPRequest]
+
+[OCR]
+ Enabled = true
+ KeyBundleID = ''
+ TransmitterAddress = ''
+
+[P2P]
+ PeerID = ''
+
+[P2P.V1]
+ Enabled = false
+
+[P2P.V2]
+ Enabled = true
+ AnnounceAddresses = ['1.2.3.4:9999']
+ DefaultBootstrappers = ['', '', '', '']
+ ListenAddresses = ['0.0.0.0:9999']
+
+[[EVM]]
+ ChainID = '534352'
+ Enabled = true
+ FinalityDepth = 1
+ LinkContractAddress = '0x0000000000000000000000000000000000000000'
+ LogPollInterval = '3s'
+ MinContractPayment = '0.1 link'
+ MinIncomingConfirmations = 1
+ NoNewHeadsThreshold = '0'
+
+[EVM.GasEstimator]
+ Mode = 'L2Suggested'
+ PriceMin = '0'
+ BumpThreshold = 0
+
+[EVM.GasEstimator.BlockHistory]
+ BlockHistorySize = 0
+
+[EVM.HeadTracker]
+ HistoryDepth = 50
+
+[EVM.OCR]
+ ContractConfirmations = 1
+
+[[EVM.Nodes]]
+ Name = 'Scroll_Mainnet_00'
+ WSURL = ''
+ HTTPURL = ''
+ SendOnly = false
